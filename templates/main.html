@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peppercorn</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-image: url('/static/mainpage.png'); /* Ensure this URL is correct */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center; /* Ensures the background image is centered */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: white; /* White text for better visibility on a dark background */
+        }
+        h1 {
+            font-size: 32px; /* Appropriate font size for main title */
+            margin-bottom: 0.5em; /* Space below the title */
+            text-align: center;
+        }
+        h2 {
+            font-size: 20px; /* Subtitle size that complements the main title */
+            margin-bottom: 2em; /* Space below the subtitle */
+            font-weight: 400; /* Less emphasis on the subtitle */
+            text-align: center;
+        }
+
+        h3{
+            margin-top: 0%;
+            font-size: 15px;
+            margin-right:46%;
+        }
+
+        .btn {
+            display: inline-block;
+            
+            padding: 10px 20px;
+            margin: 10px 5px; /* Slightly reduce horizontal margin */
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: rgba(7, 7, 7, 0.8); /* Slightly transparent dark grey */
+            color: #fff;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .btn:hover {
+            background-color: #555; /* Lighter grey on hover */
+            transform: translateY(-3px); /* Subtle lift effect */
+        }
+        .btn-container {
+            display: flex;
+            margin-right:46%;
+            padding-top: 50px;
+            /* padding-top: 100px; */
+            justify-content: center;
+            width: 100%; /* Full width to center buttons on all screen sizes */
+        }
+    </style>
+</head>
+<body>
+    <h3>Revolutionizing email marketing, enhanced by AI.</h3>
+    <div class="btn-container">
+        <a href="/login" class="btn">Login</a>
+        <a href="/register" class="btn">Register</a>
+    </div>
+    <script>
+        // Function to check if cookies exist
+        function checkCookies() {
+            // Check if the username cookie exists
+            if (document.cookie.includes("username")) {
+                // If the cookie exists, clear it
+                clearCookies();
+            }
+        }
+
+        // Function to clear cookies
+        function clearCookies() {
+            // Set expiration date in the past to delete cookies
+            document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            // Redirect to the main page
+            window.location.href = "/";
+        }
+
+        // Call the function when the page loads
+        window.onload = checkCookies;
+    </script>
+</body>
+</html>

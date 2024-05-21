@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Data</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Data Details</h1>
+    <table id="data-table">
+        <tr>
+            {% if data %}
+                {% for key in data[0].keys() %}
+                    <th>{{ key }}</th>
+                {% endfor %}
+            {% endif %}
+        </tr>
+        {% for item in data %}
+            <tr>
+                {% for key, value in item.items() %}
+                    <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+
+    <script>
+        document.querySelectorAll('.show-form').forEach(form => {
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+    
+                const formData = new FormData(form);
+                const formDataJson = Object.fromEntries(formData.entries());
+                const uploadId = formDataJson.upload_id; // Extract upload_id from the form data
+    
+                const response = await fetch(`/show-data-table/${uploadId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+    
+                if (response.ok) {
+                    const data = await response.json();
+                    // Clear existing table rows
+                    document.getElementById('data-table').innerHTML = '';
+    
+                    // Add table headers
+                    const headers = Object.keys(data[0]);
+                    const headerRow = document.createElement('tr');
+                    headers.forEach(header => {
+                        const th = document.createElement('th');
+                        th.textContent = header;
+                        headerRow.appendChild(th);
+                    });
+                    document.getElementById('data-table').appendChild(headerRow);
+    
+                    // Add table rows and cells
+                    data.forEach(item => {
+                        const row = document.createElement('tr');
+                        headers.forEach(header => {
+                            const cell = document.createElement('td');
+                            cell.textContent = item[header];
+                            row.appendChild(cell);
+                        });
+                        document.getElementById('data-table').appendChild(row);
+                    });
+                } else {
+                    const data = await response.json();
+                    alert(`Couldn't retrieve data: ${data.detail}`);
+                }
+            });
+        });
+    </script>
+    
+</body>
+</html>
