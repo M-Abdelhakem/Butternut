@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input[type="file"] {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        input[type="url"] {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            display: none; /* Hide initially */
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .option-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .option-container label {
+            margin-right: 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Data</h1>
+        <form id="upload-form" action="/upload-csv-data" method="post" enctype="multipart/form-data">
+            <div class="option-container">
+                <input type="radio" id="file-option" name="upload-option" value="file" checked>
+                <label for="file-option">Upload File</label>
+                <input type="radio" id="url-option" name="upload-option" value="url">
+                <label for="url-option">Upload from URL</label>
+            </div>
+            <input type="file" id="file" name="file" accept=".csv" required>
+            <input type="url" id="url" name="url" placeholder="Enter URL">
+            <!-- <input type="text" id="user_id" name="user_id" value="{{ user_id }}" required>  Include user_id -->
+            <button type="submit">Upload</button>
+        </form>
+    </div>
+
+    <script>
+        const fileOption = document.getElementById('file-option');
+        const urlOption = document.getElementById('url-option');
+        const fileInput = document.getElementById('file');
+        const urlInput = document.getElementById('url');
+    
+        fileOption.addEventListener('change', () => {
+            if (fileOption.checked) {
+                fileInput.style.display = 'block';
+                urlInput.style.display = 'none';
+                fileInput.required = true;
+                urlInput.required = false;
+            }
+        });
+    
+        urlOption.addEventListener('change', () => {
+            if (urlOption.checked) {
+                fileInput.style.display = 'none';
+                urlInput.style.display = 'block';
+                fileInput.required = false;
+                urlInput.required = true;
+            }
+        });
+
+        const form = document.getElementById('upload-form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            
+            const formData = new FormData(form); // Create FormData object from form
+            
+            try {
+                const response = await fetch('/upload-csv-data', {
+                    method: 'POST',
+                    body: formData // Send FormData as body
+                });
+                const data = await response.json();
+                alert(data.message); // Show response message
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+    
+</body>
+</html>
