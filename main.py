@@ -22,11 +22,3 @@ if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app)
 
-@app.post("/upload-csv-data")
-async def upload_csv_data(file: UploadFile = File(...)):
-    try:
-        with open(f"uploads/{file.filename}", "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
-        return JSONResponse(content={"message": "File uploaded successfully"})
-    except Exception as e:
-        return JSONResponse(content={"message": "File upload failed"}, status_code=500)
