@@ -1,7 +1,14 @@
-git rm -r --cached .
-git add .
-git commit -m "Clean up ignored files"
-*.pyc
+# Ignore all __pycache__ folders
 __pycache__/
+
+# Ignore __pycache__ folders in specific directories
+routers/__pycache__/
+schemas/__pycache__/
+
+# Ignore the lib folder inside .venv
+.venv/lib/
+
+# Other ignores
+*.pyc
 *.pyo
 *.pyd
