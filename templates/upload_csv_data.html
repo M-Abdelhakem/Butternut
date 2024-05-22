@@ -17,13 +17,14 @@
             color: white;
         }
         .container {
-            max-width: 600px;
+            max-width: 800px; /* Increase the max-width */
             margin: 50px auto;
             padding: 20px;
-            background-color: #fff;
+            background-color: rgba(57, 57, 57, 1); /* Dark gray background */
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            color: black;
+            box-shadow: 0 0 10px rgba(57, 57, 57, 1);
+            color: #ffffff; /* White text */
+            border: 2px solid #ffffff; /* Make the border bolder */
         }
         h1 {
             text-align: center;
@@ -48,12 +49,13 @@
             display: none;
         }
         .drag-file-area {
-            border: 2px dashed #565656;
+            border: 4px dashed #ffffff; /* White border */
             border-radius: 40px;
-            margin: 10px 0 15px;
-            padding: 30px 50px;
-            width: 100%;
+            margin: 40px 0 60px; /* Increase top and bottom margins */
+            width: 100%; /* Update width to 100% */
             text-align: center;
+            color: #ffffff; /* White text */
+            background-color: rgba(57, 57, 57, 1); /* Black background */
             display: none;
         }
         .drag-file-area .upload-icon {
@@ -138,10 +140,11 @@
             color: #f7fff7;
             display: flex;
             align-items: center;
+            justify-content: center; /* Center horizontally */
             font-size: 18px;
             border: none;
             border-radius: 20px;
-            margin: 10px;
+            margin: 10px auto; /* Center horizontally */
             padding: 7.5px 50px;
             cursor: pointer;
         }
@@ -162,7 +165,7 @@
             <div class="drag-file-area" id="drag-file-area">
                 <span class="material-icons-outlined upload-icon">file_upload</span>
                 <h3 class="dynamic-message">Drag & drop .csv file here</h3>
-                <label class="label">or <span class="browse-files"><input type="file" class="default-file-input" />  <span>from device</span></span></label>
+                <!-- <label class="label">or <span class="browse-files"><input type="file" class="default-file-input" />  <span>from device</span></span></label> -->
             </div>
             <span class="cannot-upload-message"><span class="material-icons-outlined">error</span> Please select a file first <span class="material-icons-outlined cancel-alert-button">cancel</span></span>
             <div class="file-block">
