@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Business Context Form</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script defer src="/static/scripts/texteditor.js"></script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: radial-gradient(
+          circle at 50.2% -175%,
+          rgb(14, 72, 222) 5.2%,
+          #010a1d 75.3%
+        );
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 120vh;
+        position: relative;
+      }
+      /* Stars */
+      .star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background-color: #fff;
+        border-radius: 50%;
+        animation: twinkle 2s infinite;
+      }
+
+      @keyframes twinkle {
+        0% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0.3;
+        }
+      }
+
+      .container_out {
+        margin-top: 50px; /* Increased margin-top to move it down */
+        width: 900px; /* Increased width */
+        border: 2px solid #8bf;
+        height: 420px;
+        padding: 40px;
+        margin-bottom: 5px;
+        background-color: #042551;
+        border-radius: 30px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        position: relative;
+      }
+
+      h2 {
+        margin-top: 0px;
+        color: white;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      label {
+        font-weight: bold;
+        color: white;
+        display: block;
+        margin-top: 10px;
+      }
+
+      input[type="text"],
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        background-color: #f8f8f8;
+      }
+
+      button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 20px;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      .container1 {
+        margin-bottom: 100px;
+        width: 100%;
+        padding: 18px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-right: 10px;
+        position: absolute;
+        top: 0;
+        left: 0;
+      }
+
+      .container1 li {
+        list-style: none;
+        margin-left: 85px;
+        text-align: center;
+        display: inline;
+      }
+
+      .container1 li a {
+        text-decoration: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 4px;
+        color: #f2f2f2;
+        display: inline-block;
+        text-align: center;
+        letter-spacing: 1px;
+        transition: all 0.3s ease-in;
+        font-family: "Inter", sans-serif;
+      }
+
+      .container1 li a:hover {
+        background-color: #ddffd9;
+        background-color: #091e9627;
+        color: rgb(210, 210, 210);
+      }
+
+      /* SHIFT */
+      nav.shift ul li a {
+        position: relative;
+        z-index: 1;
+      }
+
+      nav.shift ul li a:hover {
+        color: #ffffff;
+        font-size: 20px;
+      }
+
+      nav.shift ul li a:after {
+        display: block;
+        position: absolute;
+        top: 0;
+        border-radius: 3px;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        width: 100%;
+        height: 1px;
+        content: ".";
+        color: transparent;
+        visibility: none;
+        opacity: 0;
+        z-index: -1;
+      }
+
+      nav.shift ul li a:hover:after {
+        opacity: 1;
+        visibility: visible;
+        height: 100%;
+      }
+      
+      .btn {
+        display: inline-block;
+        padding-top: 10px;
+        margin-top: 10px;
+        padding: 10px 20px;
+        margin: 10px 5px;
+        font-size: 16px;
+        margin-right: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: rgba(7, 7, 7, 0.8);
+        background-color: #253259;
+        color: #fff;
+        text-decoration: none;
+        transition: background-color 0.3s, transform 0.3s;
+        transform: translateY(-3px);
+      }
+
+      /* Floating Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .modal-content {
+        background-color: #042551;
+        margin: 15% auto;
+        padding: 20px;
+        border: 2px solid #8bf;
+        width: 50%;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+      }
+
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .container {
+            margin-top: 100px;
+            position: relative;
+            width: 700px;
+            border: 2px solid #8bf; /* Создание границы 2px с указанным цветом */
+            height: 55%;
+            padding: 40px;
+            background-color: #042551; /* Темно-серый фон для формы */
+            border-radius: 30px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); /* Углубленная тень для большего акцента */
+            position: relative; /* Added to position .donthave */
+            margin-bottom: 20px; /* Добавлено для отступа между формой и текстом */
+        }
+        p{
+            text-align: center;
+        }
+
+        .close-email{
+            color: #010a1d;
+            font-size: 30px;
+            font-weight: bold;
+        }
+    </style>
+  </head>
+  <body onload="checkModals()">
+    <div>
+      <div class="container1">
+        <nav class="shift">
+          <ul>
+            <li><a href="/main">HOME</a></li>
+            <li><a href="/customer-list">CUSTOMER LIST</a></li>
+            <li><a href="/send-email">SEND EMAIL</a></li>
+            <li><a href="#">ABOUT</a></li>
+            <li><a href="#">CONTACT</a></li>
+          </ul>
+        </nav>
+      </div>
+
+      <!-- Business Context Form -->
+      <div>
+        <div class="container">
+        <h2>Enter Your Business Context</h2>
+        <form id="contextForm">
+          <label for="ownerName">Your Name:</label>
+          <input type="text" id="ownerName" name="ownerName" required />
+
+          <label for="businessName">Business Name:</label>
+          <input type="text" id="businessName" name="businessName" required />
+
+          <label for="businessDescription">Product Description:</label>
+          <textarea
+            id="businessDescription"
+            name="businessDescription"
+            rows="4"
+            required
+          ></textarea>
+
+          <label for="persona">Your Persona:</label>
+          <textarea id="persona" name="persona" rows="4" required></textarea>
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+
+      <!-- The Modal for Email Verification -->
+      <div id="emailVerificationModal" class="modal">
+        <div class="modal-content">
+          <span class="close-email">&times;</span>
+          <h2 style="color: white">Email Verification</h2>
+          <p style="color: white">
+            Check your email for verification email from AWS - (Amazon Web Services).
+          </p>
+        </div>
+      </div>
+    </div>
+</div>
+
+    <script>
+      // Modal functionality
+      const emailModal = document.getElementById("emailVerificationModal");
+      const emailSpan = document.getElementsByClassName("close-email")[0];
+
+      emailSpan.onclick = function () {
+        emailModal.style.display = "none";
+        window.location.href = "/customer-list";
+      };
+
+      window.onclick = function (event) {
+        if (event.target == emailModal) {
+          emailModal.style.display = "none";
+          window.location.href = "/customer-list";
+        }
+      };
+
+      // Function to call the verify-email route
+      async function verifyEmail() {
+        try {
+          const response = await fetch("/verify-email", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include", // Include cookies in the request
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to verify email");
+          }
+
+          console.log("Email verification initiated");
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+
+      // Handle form submission
+      const form = document.getElementById("contextForm");
+      form.onsubmit = async function (event) {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const formDataJson = Object.fromEntries(formData.entries());
+
+        const response = await fetch("/submit-business-card", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formDataJson),
+        });
+
+        if (response.ok) {
+          emailModal.style.display = "block"; // Show the email verification modal
+        } else {
+          console.error("Error saving context");
+        }
+      };
+    </script>
+
+    <script>
+      const numStars = 150; // Adjust the number of stars as needed
+
+      for (let i = 0; i < numStars; i++) {
+        createStar(i);
+      }
+
+      function createStar(index) {
+        const star = document.createElement("div");
+        star.classList.add("star");
+        star.style.top = Math.random() * 11 + "%";
+        star.style.left = Math.random() * 100 + "%";
+        star.style.animationDelay = Math.random() * 5 + "s";
+        document.body.appendChild(star);
+      }
+    </script>
+  </body>
+</html>
