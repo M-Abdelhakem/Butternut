@@ -575,7 +575,7 @@ background-color: #f7f7f7;
     <div class="container1">
       <nav class="shift">
         <ul>
-          <li><a href="/main">HOME</a></li>
+          <li><a href="/business-card">HOME</a></li>
           <li><a href="/customer-list">CUSTOMER LIST</a></li>
           <li><a href="/send-email">SEND EMAIL</a></li>
           <li><a href="#">ABOUT</a></li>
@@ -744,7 +744,7 @@ background-color: #f7f7f7;
       const chatbox = document.querySelector(".chatbox");
 
       let userMessage;
-      const API_KEY = "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";
+      const API_KEY = "sk-proj-EnSbPqFCrq6n5YgmQU0QT3BlbkFJ4ujnLzmBheHlL2GeBtIP";
 
       //OpenAI Free APIKey
 
@@ -767,11 +767,11 @@ background-color: #f7f7f7;
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${
-              sk - proj - ak2NjxKNplw3Dyxt0zYsT3BlbkFJLtOvYatMhGX2thXwzDzo
+              sk - proj - EnSbPqFCrq6n5YgmQU0QT3BlbkFJ4ujnLzmBheHlL2GeBtIP
             }`,
           },
           body: JSON.stringify({
-            model: "gpt-3.5-turbo",
+            model: "gpt-4-turbo",
             messages: [
               {
                 role: "user",
