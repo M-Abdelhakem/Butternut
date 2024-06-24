@@ -122,7 +122,7 @@
         height: 80vh;
       }
 
-    .editor_container {
+      .editor_container {
         margin-top: 10px;
         border: 6px solid rgb(13, 62, 127);
         border-radius: 5px;
@@ -131,7 +131,7 @@
         margin: 0 auto;
         height: 700px; /* Increase height as needed */
         overflow-y: auto; /* Make it scrollable */
-    }
+      }
 
       .create-button,
       .switch-button,
@@ -169,7 +169,6 @@
       .right-panel h2 {
         margin-bottom: 20px;
         text-align: center;
-        
       }
 
       .preview-box {
@@ -277,7 +276,6 @@
         overflow-y: auto; /* Make it scrollable */
       }
 
-
       .ck-editor__editable {
         height: 150vh;
         margin-left: 0;
@@ -285,7 +283,10 @@
         background-color: rgb(86, 92, 160);
       }
 
-      #editor1, #editor2, #editor3, #editor4{
+      #editor1,
+      #editor2,
+      #editor3,
+      #editor4 {
         height: 400px;
       }
 
@@ -354,7 +355,7 @@
 
       /* Caption text */
       .text {
-        color: #2824af;
+        color: #dadae3;
         font-weight: bolder;
         font-size: 15px;
         padding: 8px 12px;
@@ -387,7 +388,7 @@
 
       .dot:hover {
         background-color: #20087e;
-      } 
+      }
 
       /* Fading animation */
       .fade {
@@ -507,7 +508,7 @@
       }
 
       #sendBTN {
-        font-family: "Inter",sans-serif;
+        font-family: "Inter", sans-serif;
         width: 100%;
         padding: 8px;
         border: 0;
@@ -529,7 +530,10 @@
         margin-left: 550px;
       }
 
-      #editor1, #editor2, #editor3, #editor4{
+      #editor1,
+      #editor2,
+      #editor3,
+      #editor4 {
         height: 400px;
       }
 
@@ -609,43 +613,47 @@
         transform: scale(1);
       }
 
-      #editor1, #editor2, #editor3, #editor4{
+      #editor1,
+      #editor2,
+      #editor3,
+      #editor4 {
         height: 400px;
       }
 
-   
+      .editor_container_right {
+        margin-top: -30px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        width: 470px;
+        margin-right: 10px;
+        margin: 0 auto;
+        height: 440px; /* Adjust height to fill available space */
+        overflow-y: auto; /* Make it scrollable */
+      }
 
-.editor_container_right {
-  margin-top: 10px;
-  border-radius: 5px;
-  width: 470px;
-  margin-right: 10px;
-  margin: 0 auto;
-  height: 480px; /* Adjust height to fill available space */
-  overflow-y: auto; /* Make it scrollable */
-}
+      .ck-editor__editable {
+        height: 470px; /* Make it fill the entire container */
+        margin-left: 0;
+        border: 2px solid #007bff;
+        background-color: rgb(86, 92, 160);
+      }
 
-.ck-editor__editable {
-  height: 470px; /* Make it fill the entire container */
-  margin-left: 0;
-  border: 2px solid #007bff;
-  background-color: rgb(86, 92, 160);
-}
+      #editor1,
+      #editor2,
+      #editor3,
+      #editor4 {
+        height: 100%; /* Make it fill the entire container */
+      }
 
-#editor1, #editor2, #editor3, #editor4 {
-  height: 100%; /* Make it fill the entire container */
-}
+      .slideshow-container {
+        height: calc(100% - 50px); /* Adjust height to fill available space */
+        position: relative;
+        margin: auto;
+      }
 
-.slideshow-container {
-  height: calc(100% - 50px); /* Adjust height to fill available space */
-  position: relative;
-  margin: auto;
-}
-
-.mySlides {
-  height: 100%; /* Make it fill the entire container */
-}
-
+      .mySlides {
+        height: 100%; /* Make it fill the entire container */
+      }
     </style>
   </head>
   <body>
@@ -662,10 +670,11 @@
       </nav>
     </div>
 
+
     <div class="wrapper">
       <header class="header">
-        <h1 style="margin-left: 220px;">Prompt Editor</h1>
-        <h2 style="color: #8bf; margin-left: 240px;" >Preview</h2>
+        <h1 style="margin-left: 220px">Prompt Editor</h1>
+        <h2 style="color: #8bf; margin-left: 240px">Preview</h2>
         <span>---</span>
       </header>
       <main class="main">
@@ -683,7 +692,7 @@
                 <div class="editor_container">
                   <div id="editor" class="ck-editor__editable"></div>
                 </div>
-                <button class="switch-button" onclick="showEditor()">
+                <button class="switch-button" onclick="sendCombinedPrompt()">
                   Generate Email Versions
                 </button>
               </div>
@@ -691,7 +700,7 @@
                 <div class="editor_container">
                   <div id="editor_prompt" class="ck-editor__editable"></div>
                 </div>
-                <button class="switch-button" onclick="showEditor()">
+                <button class="switch-button" onclick="sendCombinedPrompt()">
                   Generate Email Versions
                 </button>
               </div>
@@ -703,7 +712,7 @@
                   molestiae numquam at, quisquam cumque. Labore eligendi
                   perspiciatis quia incidunt quaerat ut ducimus?
                 </p>
-                <button class="switch-button" onclick="showEditor()">
+                <button class="switch-button" onclick="sendCombinedPrompt()">
                   Generate Email Versions
                 </button>
               </div>
@@ -711,7 +720,7 @@
                 <div class="chatBot" id="chatBot">
                   <ul class="chatbox">
                     <li class="chat-incoming chat">
-                      <p>Give me instuctions to refine versions!</p>
+                      <p>Give me instructions to refine versions!</p>
                     </li>
                   </ul>
                   <div class="chat-input">
@@ -727,103 +736,136 @@
             </div>
           </div>
         </div>
-        
         <div class="right-panel">
-            
-            <!-- Slideshow container -->
-            <div class="slideshow-container" style="margin-top: -30px">
-              <!-- Full-width images with number and caption text -->
-              <div class="mySlides fade">
-                
-                <div class="editor_container_right">
-                  <div id="editor1" style="height: 500px;" class="ck-editor__editable"></div>
-                </div>
-                <div class="text">Shorter Version</div>
+          <div class="slideshow-container">
+            <div class="mySlides fade">
+              <div class="editor_container_right">
+                <div id="editor1" class="ck-editor__editable"></div>
               </div>
-  
-              <div class="mySlides fade">
-                
-                <div class="editor_container_right">
-                  <div id="editor2" class="ck-editor__editable"></div>
-                </div>
-                <div class="text">Longer Version</div>
-              </div>
-  
-              <div class="mySlides fade">
-               
-                <div class="editor_container_right">
-                  <div id="editor3" class="ck-editor__editable"></div>
-                </div>
-                <div class="text">More Formal Version</div>
-              </div>
-  
-              <div class="mySlides fade">
-                
-                <div class="editor_container_right">
-                  <div id="editor4" class="ck-editor__editable"></div>
-                </div>
-                <div class="text">More Informal Version</div>
-              </div>
-  
-              <!-- Next and previous buttons -->
-              <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-              <a class="next" onclick="plusSlides(1)">&#10095;</a>
+              <div class="text">Shorter Version</div>
             </div>
-            <br />
-  
-            
-            <!-- </div> -->
-            <button class="send_button" style="margin-top: 5px; width: 90%; margin-left: 5%;">
-              Refine Email
-            </button>
+            <div class="mySlides fade">
+              <div class="editor_container_right">
+                <div id="editor2" class="ck-editor__editable"></div>
+              </div>
+              <div class="text">Longer Version</div>
+            </div>
+            <div class="mySlides fade">
+              <div class="editor_container_right">
+                <div id="editor3" class="ck-editor__editable"></div>
+              </div>
+              <div class="text">More Formal Version</div>
+            </div>
+            <div class="mySlides fade">
+              <div class="editor_container_right">
+                <div id="editor4" class="ck-editor__editable"></div>
+              </div>
+              <div class="text">More Informal Version</div>
+            </div>
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
           </div>
+          <button
+            class="send_button"
+            style="margin-top: 5px; width: 90%; margin-left: 5%"
+          >
+            Send Emails
+          </button>
+        </div>
       </main>
     </div>
 
-</script>
-<script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script>
     <script>
-      ClassicEditor.create(document.querySelector("#editor1")).catch(
-        (error) => {
-          console.error(error);
-        }
-      );
+        let editor, editorPrompt, editor1, editor2, editor3, editor4;
 
-      ClassicEditor.create(document.querySelector("#editor2")).catch(
-        (error) => {
-          console.error(error);
-        }
-      );
+        ClassicEditor.create(document.querySelector("#editor")).then(newEditor => {
+            editor = newEditor;
+        }).catch(error => {
+            console.error("Editor init error:", error);
+        });
 
-      ClassicEditor.create(document.querySelector("#editor3")).catch(
-        (error) => {
-          console.error(error);
-        }
-      );
+        ClassicEditor.create(document.querySelector("#editor_prompt")).then(newEditor => {
+            editorPrompt = newEditor;
+        }).catch(error => {
+            console.error("Editor prompt init error:", error);
+        });
 
-      ClassicEditor.create(document.querySelector("#editor4")).catch(
-        (error) => {
-          console.error(error);
+        ClassicEditor.create(document.querySelector("#editor1")).then(newEditor => {
+            editor1 = newEditor;
+        }).catch(error => {
+            console.error("Editor1 init error:", error);
+        });
+
+        ClassicEditor.create(document.querySelector("#editor2")).then(newEditor => {
+            editor2 = newEditor;
+        }).catch(error => {
+            console.error("Editor2 init error:", error);
+        });
+
+        ClassicEditor.create(document.querySelector("#editor3")).then(newEditor => {
+            editor3 = newEditor;
+        }).catch(error => {
+            console.error("Editor3 init error:", error);
+        });
+
+        ClassicEditor.create(document.querySelector("#editor4")).then(newEditor => {
+            editor4 = newEditor;
+        }).catch(error => {
+            console.error("Editor4 init error:", error);
+        });
+
+        async function sendCombinedPrompt() {
+            const editorContent = await editor.getData();
+            const editorPromptContent = await editorPrompt.getData();
+
+            console.log("Editor Content:", editorContent);
+            console.log("Editor Prompt Content:", editorPromptContent);
+
+            const combinedContent = editorContent + "\n\n" + editorPromptContent;
+
+            console.log("Combined Content:", combinedContent);
+
+            try {
+                const response = await fetch('/send-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        prompt: combinedContent,
+                    }),
+                });
+
+                console.log("Fetch Response:", response);
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                console.log("Response Data:", data);
+                editor1.setData(data.generatedEmailShort);
+                editor2.setData(data.generatedEmailLong);
+                editor3.setData(data.generatedEmailFormal);
+                editor4.setData(data.generatedEmailInformal);
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
-      );
+
 
       let slideIndex = 1;
       showSlides(slideIndex);
 
-      // Next/previous controls
       function plusSlides(n) {
         showSlides((slideIndex += n));
       }
 
-      // Thumbnail image controls
-      function currentSlide(n) {
-        showSlides((slideIndex = n));
-      }
-
-    function showSlides(n) {
+      function showSlides(n) {
         let i;
         let slides = document.getElementsByClassName("mySlides");
-        let dots = document.getElementsByClassName("dot");
         if (n > slides.length) {
           slideIndex = 1;
         }
@@ -833,78 +875,51 @@
         for (i = 0; i < slides.length; i++) {
           slides[i].style.display = "none";
         }
-        for (i = 0; i < dots.length; i++) {
-          dots[i].className = dots[i].className.replace(" active", "");
-        }
         slides[slideIndex - 1].style.display = "block";
-        dots[slideIndex - 1].className += " active";
       }
-    </script>
 
+      let tabHeader = document.getElementsByClassName("tab-header")[0];
+      let tabIndicator = document.getElementsByClassName("tab-indicator")[0];
+      let tabBody = document.getElementsByClassName("tab-body")[0];
 
-    <script>
-        const numStars = 100; // Adjust the number of stars as needed
-  
-        for (let i = 0; i < numStars; i++) {
-          createStar(i);
-        }
-  
-        function createStar(index) {
-          const star = document.createElement("div");
-          star.classList.add("star");
-          star.style.top = Math.random() * 7 + "%";
-          star.style.left = Math.random() * 100 + "%";
-          star.style.animationDelay = Math.random() * 5 + "s";
-          document.body.appendChild(star);
-        }
-      </script>
+      let tabsPane = tabHeader.getElementsByTagName("div");
+      let tabContents = tabBody.getElementsByClassName("tab-content");
 
-    <script>
-      // Add function to show the chatbot and hide other elements
+      for (let i = 0; i < tabsPane.length; i++) {
+        tabsPane[i].addEventListener("click", function () {
+          tabHeader
+            .getElementsByClassName("active")[0]
+            .classList.remove("active");
+          tabsPane[i].classList.add("active");
+          tabBody
+            .getElementsByClassName("active")[0]
+            .classList.remove("active");
+          tabContents[i].classList.add("active");
+
+          tabIndicator.style.left = `calc(calc(100% / 4) * ${i})`;
+        });
+      }
+
       function showChatBot() {
-        // Hide all other elements in the left panel
         const leftPanelChildren =
           document.querySelector(".left-panel").children;
         for (let i = 0; i < leftPanelChildren.length; i++) {
           leftPanelChildren[i].style.display = "none";
         }
 
-        // Show the chatbot div
         document.getElementById("chatBot").style.display = "block";
       }
 
-      // Add event listener to the "Refine Email" button
       document
         .querySelector(".send_button")
         .addEventListener("click", showChatBot);
-
-      function showChatBot() {
-        // Hide other elements in the left panel
-        document.querySelector(".editor_container").style.display = "none";
-        document.querySelector(".form-controls").style.display = "none";
-        document.querySelector(".switch-button").style.display = "none";
-        document.querySelector(".config-button").style.display = "none";
-
-        // Show the chatbot div
-        document.getElementById("chatBot").style.display = "block";
-      }
-
-      // Add event listener to the "Refine Email" button
-      document
-        .querySelector(".send_button")
-        .addEventListener("click", showChatBot);
-
-      // script.js
 
       const chatInput = document.querySelector(".chat-input textarea");
       const sendChatBtn = document.querySelector(".chat-input button");
       const chatbox = document.querySelector(".chatbox");
 
       let userMessage;
-      const API_KEY =
-        "sk-proj-EnSbPqFCrq6n5YgmQU0QT3BlbkFJ4ujnLzmBheHlL2GeBtIP";
-
-      //OpenAI Free APIKey
+      const API_KEY = "YOUR_OPENAI_API_KEY";
 
       const createChatLi = (message, className) => {
         const chatLi = document.createElement("li");
@@ -923,9 +938,7 @@
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${
-              sk - proj - EnSbPqFCrq6n5YgmQU0QT3BlbkFJ4ujnLzmBheHlL2GeBtIP
-            }`,
+            Authorization: `Bearer ${API_KEY}`,
           },
           body: JSON.stringify({
             model: "gpt-4-turbo",
@@ -973,187 +986,24 @@
       };
 
       sendChatBtn.addEventListener("click", handleChat);
-
-      // function cancel() {
-      // 	let chatbotcomplete = document.querySelector(".chatBot");
-      // 	if (chatbotcomplete.style.display != 'none') {
-      // 		chatbotcomplete.style.display = "none";
-      // 		let lastMsg = document.createElement("p");
-      // 		lastMsg.textContent = 'Thanks for using our Chatbot!';
-      // 		lastMsg.classList.add('lastMessage');
-      // 		document.body.appendChild(lastMsg)
-      // 	}
-      // }
     </script>
 
-    <script>
-      let tabHeader = document.getElementsByClassName("tab-header")[0];
-      let tabIndicator = document.getElementsByClassName("tab-indicator")[0];
-      let tabBody = document.getElementsByClassName("tab-body")[0];
+<script>
+    const numStars = 150; // Adjust the number of stars as needed
 
-      let tabsPane = tabHeader.getElementsByTagName("div");
-      let tabContents = tabBody.getElementsByClassName("tab-content");
+    for (let i = 0; i < numStars; i++) {
+        createStar(i);
+    }
 
-      for (let i = 0; i < tabsPane.length; i++) {
-        tabsPane[i].addEventListener("click", function () {
-          tabHeader
-            .getElementsByClassName("active")[0]
-            .classList.remove("active");
-          tabsPane[i].classList.add("active");
-          tabBody
-            .getElementsByClassName("active")[0]
-            .classList.remove("active");
-          tabContents[i].classList.add("active");
+    function createStar(index) {
+        const star = document.createElement("div");
+        star.classList.add("star");
+        star.style.top = Math.random() * 7 + "%";
+        star.style.left = Math.random() * 100 + "%";
+        star.style.animationDelay = Math.random() * 5 + "s";
+        document.body.appendChild(star);
+    }
 
-          tabIndicator.style.left = `calc(calc(100% / 4) * ${i})`;
-        });
-      }
-    </script>
-
-    <script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script>
-    <script>
-      function showEditor() {
-        document.getElementById("formControls").style.display = "none";
-        document.querySelector(".editor_container").style.display = "block";
-      }
-
-      ClassicEditor.create(document.querySelector("#editor"))
-        .then((editor) => {
-          editor.setData(
-            `
-<p>SUBJECT: You're invited to SUMMER OF LOVE! ❤️ </p>
-<p></p>
-<p>Hello Members of the Spice Kingdom,</p>
-<p></p>
-<p>I must confess something quite spicy has been on my mind lately. You won't believe it, but I was grooving to some tunes by the America's favorite Canadian sweetheart Celine Dion, and oh boy, love hit me like a fiery pepper! Her enchanting melodies transcended time and filled the air with passion and romance. It was like Cupid himself dropped by with a crate of red-hot chili peppers!</p>
-<p></p>
-<p>Inspired by this fervent reminder, I decided to host an unforgettable celebration, unlike any other. To celebrate the sizzling season devoted to all things love. So from henceforth, by Royal Decree, Summer of 2023 shall be called THE SUMMER OF LOVE (SOL). And I invite you all to join in the fun.</p>
-<p></p>
-<p>[Fri Jul 28] Black Pink Mostly Singles Party (co-hosted by NAS DAILY): <a href="http://lu.ma/blackpink">http://lu.ma/blackpink</a><br>
-To kick off SOL, Dignitary Nuseir Yassin (also known by his 65 million followers as Nas Daily) will be hosting a royal gathering of men and women, separated by bright colors and dark hues. It will be a small intimate gathering of 200.</p>
-<p></p>
-<p>[Sat Jul 29] Quest for the 5 Elements (co-hosted by INFINITE LOVE): <a href="https://partiful.com/e/4kLGvBJE9pHfbSgDfrF2">https://partiful.com/e/4kLGvBJE9pHfbSgDfrF2</a><br>
-Love is only great when it's infinite. And that is the adventure that Infinite Love has crafted. We will explore the elements of earth, wind, fire, and water... and find out what the last element is! The house will be transformed into an otherworldly wonderland, with sections dedicated to one of the four elements. Guests will embark on a captivating journey engaging in activities that evoke the essence of each element. It will be a night of profound discoveries, where hearts open to the boundless potential of infinite love, and where new connections are forged on the foundation of elemental unity.</p>
-<p></p>
-<p>[Sat Aug 5] Barbenheimer VIP Summer of Love Founder's Party 🎀🧳 (co-hosted by Forbes 30u30): <a href="http://lu.ma/forbes">http://lu.ma/forbes</a><br>
-Don't forget the Founders and Investors of the Silicon Valley. Communities from YC, Forbes, South Park Commons, etc., will be hosting a Barbie-Oppenheimer-filled affair. This exclusive gala will be a fusion of sophistication and whimsy, with a touch of modern tech glamour.</p>
-<p></p>
-<p>[Sat Aug 12] Jungle Formal: Wild Love Safari Mostly Singles Party: <a href="http://lu.ma/junglelove">http://lu.ma/junglelove</a><br>
-And who can forget the wild, passionate love of the Jungle. Amidst the verdant landscape, singles will come together to embrace the untamed nature of love, celebrating the raw beauty and excitement that only the jungle can offer.</p>
-<p></p>
-<p>With these captivating events, THE SUMMER OF LOVE (SOL) promises to be an experience that transcends time and warms the hearts of all who partake. Whether it's exploring the infinite aspects of love or surrendering to the wild allure of the jungle, this extraordinary celebration will leave a lasting impression on the souls of those who embark on this magical journey. So why not?</p>
-<p></p>
-<p>Let your SOL ignite and the Summer of Love begin!</p>
-<p></p>
-<p>Sincerely,</p>
-<p></p>
-<p>Spice King</p>
-<p></p>
-<p><a href="http://instagram.com/spicekingofzanzibar">http://instagram.com/spicekingofzanzibar</a></p>
-`
-          );
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-
-      ClassicEditor.create(document.querySelector("#editor_prompt"))
-        .then((editor) => {
-          editor.setData(
-            `
-<p style="color: black;">Imagine that you are an email marketer hired to write a drip campaign for a business. The goal of the drip campaign is to convert the user that gives you the email into a paying customer by giving them information and value.</p>
-
-<p></p>
-
-<p>The business is a startup consulting company that will advice startup founders on starting their first company.</p>
-
-<p>Give me 12 email topic ideas and catchy subject lines (optimized for open rates).</p>
-
-<p></p>
-
-<p>For each of the 4 email topics, write an email that is compelling and valuable. The email is intended for sending over 4 weeks. The email should roughly follow this format (although feel free to generate variations):</p>
-
-<p></p>
-
-<p>First paragraph, an introduction that is funny, charming, and tells a story. The following paragraphs should provide valuable information. Conclusion should reach back to the first paragraph and tie the whole thing together.</p>
-
-<p>The product we are trying to sell is the following:</p>
-
-
-
-<p>Start Your First Startup: A Mastery Course to Starting Your First Startup</p>
-
-<p>It is a $2,000 course. Most of the selling language in the emails should happen at the end and not the beginning.</p>
-
-<p></p>
-
-<p>My real name is Jimmy. But I don’t really use this name here because I had to create a 3rd person persona called the Spice King of Zanzibar. This is the name I use to promote all of my parties and events. The events happen at my house and they’ve become a thing in the bay area.</p>
-
-<p>It all started because I got burnt out working on a startup for 4 years. After that I decided I needed to take a break to recharge myself. After traveling for a year, I settled down in a house in Hillsborough and began throwing events. Eventually as my events got more and more popular, I had to be more intentional about my public identity. This was where I created the Spice King persona. This persona is similar to a stage name, like Cher, or Prince. Over time, many people have addressed me as “Spice King,” “Spice King Jimmy,” “SK” or just “spice.”</p>
-
-<p>The origin story of the Spice King is natural to me because I love to cook as a hobby and I collect single-origin spices. It just so happens that Zanzibar is a place known for its amazing spices. Put two and two together - you have an amazingly alliterative word with uncommon letters of the alphabet… with an origin story that is organic, truthful and natural. The Spice King of Zanzibar is not just a marketing brand… It is a movement.</p>
-
-<p>Going back into the events, the way I typically promote my events is through a site called Partiful.com or Lu.ma. They are event creation and promotion platforms, similar to Eventbrite. On those platforms, I use my persona (not Jimmy but Spice King) to promote the events.</p>
-
-<p>I take on the role of a benevolent Spice King with my Subjects of the Kingdom. The Spice King’s tone is often humorous and light-hearted. And puns. He loves the use of puns and clever imagery that is uncommon.</p>
-
-<p>In a lot of the event descriptions, the Spice King writes in 1st person, with a fictitious but believable narrative created around the Spice Kingdom. This is the same for the email newsletters that are written.</p>
-
-<p>With this context, imagine you are an email marketer, writing to and updating a list of people in a monthly newsletter of all the cool events happening in the Spice Kingdom or wherever the Spice King maybe… you are an email marketer, but you are also the Spice King.</p>
-
-<p>Here are the instructions for this GPT prompt.</p>
-
-<p>Let’s write an email that is relevant to a custom profile of an individual given some of the data I’ll be giving you.</p>
-
-<p>Here is an example of the monthly newsletter format / template.</p>
-
-<p>Here is the instructions for the first section:</p>
-
-<p>It starts with a casual greeting and then transitions to write something personal and relevant about the person. The language here is casual, but artful – and in character of the Spice King. He is addressing his royal subjects after all.</p>
-
-<p>Sometimes I tell a short 3-5 sentence story about the Spice Kingdom, tied to the month. It can really be anything, but it should be creative and memorable.</p>
-
-<p>To customize this section, we will use some data from the past, particularly from a Dumpling Party held in Feb of 2024 - which is a singles party. When they registered for the event, they had to fill out some data like LinkedIn profiles and notes. I will list the data here so you can use it to make this greeting more relevant:</p>
-
-<p>Name: Andy T<br>
-Email: xxx@hotmail.com<br>
-Occupation: Sales Manager at Autobahn Motors Mercedes-Benz, living in Redwood City<br>
-Education: Bachelor’s Degree in Marketing from San Francisco State University<br>
-Ticket type: Red Dumpling (Red Dumpling means “Single,” Black Dumpling means “Taken,” and “Gold” means “It’s complicated.”)<br>
-Notes: First time at the house, super excited!</p>
-
-<p>Using this data, customize the first paragraph from what you can infer (not directly injecting the data into the paragraph because that would sound like a human did not write it). For instance, what kind of income can you infer from the fact that he’s a Sales Manager, living in Redwood City? What about his gender from his name Andy? Or from the notes. Write it in such a way that when someone reads it, it thinks you are just filling in the blanks. For instance, you should never directly write that he’s a Sales Manager at Autobahn Motors.</p>
-
-<p>Make the introduction as personal as possible so that it is relevant.</p>
-
-<p>At the tail-end of the first paragraph or section, make sure there is a seamless transition toward the next section where there will be a list of events for the subscriber to see.</p>
-
-<p>Here is the instructions for the second section:</p>
-
-<p>The second paragraph is all about summarizing the events succinctly in the context of the Spice Kingdom. It will be written in this format:</p>
-
-<p>Title of the Event, as well as the date<br>
-Description here<br>
-[Insert Link Here]</p>
-
-<p>As a filler for now, generate 3 events from the past history for Andy to attend: July 4, 1776 where the Declaration of Independence is signed, A Watching Party for the Pilot Episode of The Game of Thrones, and the Inauguration of Barack Obama.</p>
-
-<p>Here is the instructions for the third section:</p>
-
-<p>The final section is about summarizing everything and leaving the subscriber to feel good afterwards so that they have a positive impression of you. This again should use some of the data from Section 1 to make it relevant to the email subscriber I am sending it to.</p>
-
-<p>Here is the instructions for the fourth section:</p>
-
-<p>The fourth section is usually the signature. I sign off often with something cheeky and relevant, along the lines of:</p>
-
-<p>Yours in spice,<br>
-Spice King</p>
-`
-          );
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    </script>
+</script>
   </body>
 </html>
