@@ -172,7 +172,7 @@
 
             if (response.ok) {
                 // alert('Login successful!');
-                window.location.href = '/customer-list';
+                window.location.href = '/business-card';
             } else {
                 const data = await response.json();
                 alert(`Login failed: ${data.detail}`);
