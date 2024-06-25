@@ -670,162 +670,162 @@
       </nav>
     </div>
 
-
+ 
     <div class="wrapper">
-      <header class="header">
-        <h1 style="margin-left: 220px">Prompt Editor</h1>
-        <h2 style="color: #8bf; margin-left: 240px">Preview</h2>
-        <span>---</span>
-      </header>
-      <main class="main">
-        <div class="left-panel">
-          <div class="tabs">
-            <div class="tab-header">
-              <div class="active"><i class="fa fa-code"></i> Template</div>
-              <div><i class="fa fa-pencil-square-o"></i> Prompt</div>
-              <div><i class="fa fa-bar-chart"></i> Context</div>
-              <div><i class="fa fa-envelope-o"></i> Chat</div>
-            </div>
-            <div class="tab-indicator"></div>
-            <div class="tab-body">
-              <div class="tab-content active">
-                <div class="editor_container">
-                  <div id="editor" class="ck-editor__editable"></div>
+        <header class="header">
+            <h1 style="margin-left: 220px">Prompt Editor</h1>
+            <h2 style="color: #8bf; margin-left: 240px">Preview</h2>
+            <span>---</span>
+        </header>
+        <main class="main">
+            <div class="left-panel">
+                <div class="tabs">
+                    <div class="tab-header">
+                        <div class="active"><i class="fa fa-code"></i> Template</div>
+                        <div><i class="fa fa-pencil-square-o"></i> Prompt</div>
+                        <div><i class="fa fa-bar-chart"></i> Context</div>
+                        <div><i class="fa fa-envelope-o"></i> Chat</div>
+                    </div>
+                    <div class="tab-indicator"></div>
+                    <div class="tab-body">
+                        <div class="tab-content active">
+                            <div class="editor_container">
+                                <div id="editor" class="ck-editor__editable"></div>
+                            </div>
+                            <button class="switch-button" onclick="sendCombinedPrompt()">
+                                Generate Email Versions
+                            </button>
+                        </div>
+                        <div class="tab-content">
+                            <div class="editor_container">
+                                <div id="editor_prompt" class="ck-editor__editable"></div>
+                            </div>
+                            <button class="switch-button" onclick="sendCombinedPrompt()">
+                                Generate Email Versions
+                            </button>
+                        </div>
+                        <div class="tab-content">
+                            <h2>This is business card section</h2>
+                            <p>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi
+                                minus exercitationem vero, id autem fugit assumenda a
+                                molestiae numquam at, quisquam cumque. Labore eligendi
+                                perspiciatis quia incidunt quaerat ut ducimus?
+                            </p>
+                            <button class="switch-button" onclick="sendCombinedPrompt()">
+                                Generate Email Versions
+                            </button>
+                        </div>
+                        <div class="tab-content">
+                            <div class="chatBot" id="chatBot">
+                                <ul class="chatbox">
+                                    <li class="chat-incoming chat">
+                                        <p>Give me instructions to refine versions!</p>
+                                    </li>
+                                </ul>
+                                <div class="chat-input">
+                                    <textarea
+                                        rows="0"
+                                        cols="17"
+                                        placeholder="Enter a message..."
+                                    ></textarea>
+                                    <button id="sendBTN">Send</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <button class="switch-button" onclick="sendCombinedPrompt()">
-                  Generate Email Versions
-                </button>
-              </div>
-              <div class="tab-content">
-                <div class="editor_container">
-                  <div id="editor_prompt" class="ck-editor__editable"></div>
+            </div>
+            <div class="right-panel">
+                <div class="slideshow-container">
+                    <div class="mySlides fade">
+                        <div class="editor_container_right">
+                            <div id="editor1" class="ck-editor__editable"></div>
+                        </div>
+                        <div class="text">Shorter Version</div>
+                    </div>
+                    <div class="mySlides fade">
+                        <div class="editor_container_right">
+                            <div id="editor2" class="ck-editor__editable"></div>
+                        </div>
+                        <div class="text">Longer Version</div>
+                    </div>
+                    <div class="mySlides fade">
+                        <div class="editor_container_right">
+                            <div id="editor3" class="ck-editor__editable"></div>
+                        </div>
+                        <div class="text">More Formal Version</div>
+                    </div>
+                    <div class="mySlides fade">
+                        <div class="editor_container_right">
+                            <div id="editor4" class="ck-editor__editable"></div>
+                        </div>
+                        <div class="text">More Informal Version</div>
+                    </div>
+                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
                 </div>
-                <button class="switch-button" onclick="sendCombinedPrompt()">
-                  Generate Email Versions
+                <button
+                    class="send_button"
+                    style="margin-top: 5px; width: 90%; margin-left: 5%"
+                >
+                    Send Emails
                 </button>
-              </div>
-              <div class="tab-content">
-                <h2>This is business card section</h2>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi
-                  minus exercitationem vero, id autem fugit assumenda a
-                  molestiae numquam at, quisquam cumque. Labore eligendi
-                  perspiciatis quia incidunt quaerat ut ducimus?
-                </p>
-                <button class="switch-button" onclick="sendCombinedPrompt()">
-                  Generate Email Versions
-                </button>
-              </div>
-              <div class="tab-content">
-                <div class="chatBot" id="chatBot">
-                  <ul class="chatbox">
-                    <li class="chat-incoming chat">
-                      <p>Give me instructions to refine versions!</p>
-                    </li>
-                  </ul>
-                  <div class="chat-input">
-                    <textarea
-                      rows="0"
-                      cols="17"
-                      placeholder="Enter a message..."
-                    ></textarea>
-                    <button id="sendBTN">Send</button>
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
-        </div>
-        <div class="right-panel">
-          <div class="slideshow-container">
-            <div class="mySlides fade">
-              <div class="editor_container_right">
-                <div id="editor1" class="ck-editor__editable"></div>
-              </div>
-              <div class="text">Shorter Version</div>
-            </div>
-            <div class="mySlides fade">
-              <div class="editor_container_right">
-                <div id="editor2" class="ck-editor__editable"></div>
-              </div>
-              <div class="text">Longer Version</div>
-            </div>
-            <div class="mySlides fade">
-              <div class="editor_container_right">
-                <div id="editor3" class="ck-editor__editable"></div>
-              </div>
-              <div class="text">More Formal Version</div>
-            </div>
-            <div class="mySlides fade">
-              <div class="editor_container_right">
-                <div id="editor4" class="ck-editor__editable"></div>
-              </div>
-              <div class="text">More Informal Version</div>
-            </div>
-            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1)">&#10095;</a>
-          </div>
-          <button
-            class="send_button"
-            style="margin-top: 5px; width: 90%; margin-left: 5%"
-          >
-            Send Emails
-          </button>
-        </div>
-      </main>
+        </main>
     </div>
-
+    
     <script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script>
     <script>
         let editor, editorPrompt, editor1, editor2, editor3, editor4;
-
+    
         ClassicEditor.create(document.querySelector("#editor")).then(newEditor => {
             editor = newEditor;
         }).catch(error => {
             console.error("Editor init error:", error);
         });
-
+    
         ClassicEditor.create(document.querySelector("#editor_prompt")).then(newEditor => {
             editorPrompt = newEditor;
         }).catch(error => {
             console.error("Editor prompt init error:", error);
         });
-
+    
         ClassicEditor.create(document.querySelector("#editor1")).then(newEditor => {
             editor1 = newEditor;
         }).catch(error => {
             console.error("Editor1 init error:", error);
         });
-
+    
         ClassicEditor.create(document.querySelector("#editor2")).then(newEditor => {
             editor2 = newEditor;
         }).catch(error => {
             console.error("Editor2 init error:", error);
         });
-
+    
         ClassicEditor.create(document.querySelector("#editor3")).then(newEditor => {
             editor3 = newEditor;
         }).catch(error => {
             console.error("Editor3 init error:", error);
         });
-
+    
         ClassicEditor.create(document.querySelector("#editor4")).then(newEditor => {
             editor4 = newEditor;
         }).catch(error => {
             console.error("Editor4 init error:", error);
         });
-
+    
         async function sendCombinedPrompt() {
             const editorContent = await editor.getData();
             const editorPromptContent = await editorPrompt.getData();
-
+    
             console.log("Editor Content:", editorContent);
             console.log("Editor Prompt Content:", editorPromptContent);
-
+    
             const combinedContent = editorContent + "\n\n" + editorPromptContent;
-
+    
             console.log("Combined Content:", combinedContent);
-
+    
             try {
                 const response = await fetch('/send-email', {
                     method: 'POST',
@@ -836,26 +836,27 @@
                         prompt: combinedContent,
                     }),
                 });
-
+    
                 console.log("Fetch Response:", response);
-
+    
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-
+    
                 const data = await response.json();
                 console.log("Response Data:", data);
                 editor1.setData(data.generatedEmailShort);
                 editor2.setData(data.generatedEmailLong);
                 editor3.setData(data.generatedEmailFormal);
                 editor4.setData(data.generatedEmailInformal);
-
+    
             } catch (error) {
                 console.error('Error:', error);
             }
         }
-
-
+    </script>
+    
+<script>
       let slideIndex = 1;
       showSlides(slideIndex);
 
@@ -919,7 +920,7 @@
       const chatbox = document.querySelector(".chatbox");
 
       let userMessage;
-      const API_KEY = "YOUR_OPENAI_API_KEY";
+      const API_KEY = "OPENAI_API_KEY";
 
       const createChatLi = (message, className) => {
         const chatLi = document.createElement("li");

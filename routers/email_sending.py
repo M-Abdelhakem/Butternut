@@ -4,8 +4,11 @@ from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from database import DBManager
-from utils.email_generation import PepperLLM
+from openai import OpenAI
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 import boto3
+
 
 class PromptRequest(BaseModel):
     prompt: str
@@ -42,6 +45,24 @@ async def get_business_context_from_db(username: str):
         raise HTTPException(status_code=404, detail="Business context not found")
     return business_context
 
+def PepperLLM(business_context, customer, prompt):
+    response = client.chat.completions.create(model="gpt-4-turbo",
+    messages=[
+        {"role": "system", "content": business_context},
+        {
+            "role": "system",
+            "content": "Using the customer data, customize the first paragraph from what you can infer (not directly injecting the data into the paragraph because that would sound like a human did not write it). For instance, what kind of income can you infer from the occupation, living in X City? What about his gender from his name?. Write it in such a way that when someone reads it, it thinks you are just filling in the blanks. For instance, you should never directly mention his job or where he/she lives.",
+        },
+        {
+            "role": "system",
+            "content": "You are an email marketer hired to write a drip campaign for a business. The goal of the drip campaign is to convert the customer that receives the email into a paying customer by giving them information and value. Here is the customer data: "
+            + str(customer)
+            + " Let’s write an email that is personalized for this specific customer.",
+        },
+        {"role": "user", "content": prompt},
+    ])
+    return response.choices[0].message.content.strip()
+
 @sending_emails_router.post("/send-email")
 async def send_email(
     username: str = Cookie(None),
@@ -57,19 +78,41 @@ async def send_email(
         customers, email_addresses = await get_emails_customers_from_db(username)
         business_context = str(await get_business_context_from_db(username))
 
+        # Ensure we have at least 4 customers
+        if len(customers) < 4:
+            raise HTTPException(status_code=400, detail="Not enough customers to generate 4 versions")
+
         # Generate email content using PepperLLM
-        email_content = PepperLLM(
+        email_content_short = PepperLLM(
             business_context=business_context,
-            customer=customers[0],  # Example customer, you can iterate over all customers
-            prompt=prompt_request.prompt,
+            customer=customers[0],
+            prompt=prompt_request.prompt + " short version",
+        )
+
+        email_content_long = PepperLLM(
+            business_context=business_context,
+            customer=customers[1],
+            prompt=prompt_request.prompt + " long version",
+        )
+
+        email_content_formal = PepperLLM(
+            business_context=business_context,
+            customer=customers[2],
+            prompt=prompt_request.prompt + " formal version",
+        )
+
+        email_content_informal = PepperLLM(
+            business_context=business_context,
+            customer=customers[3],
+            prompt=prompt_request.prompt + " informal version",
         )
 
         # Mock response to be sent back to the front-end
         generated_emails = {
-            "generatedEmailShort": f"Short Email:\n{email_content}",
-            "generatedEmailLong": f"Long Email:\n{email_content}",
-            "generatedEmailFormal": f"Formal Email:\n{email_content}",
-            "generatedEmailInformal": f"Informal Email:\n{email_content}",
+            "generatedEmailShort": email_content_short,
+            "generatedEmailLong": email_content_long,
+            "generatedEmailFormal": email_content_formal,
+            "generatedEmailInformal": email_content_informal,
         }
 
         return JSONResponse(content=generated_emails)
