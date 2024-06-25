@@ -13,7 +13,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 100vh;
+            height: 110vh;
             position: relative;
         }
 
@@ -249,11 +249,11 @@
 
     </style>
 </head>
-<body onload="checkModals()">
+<body>
     <div class="container1">
         <nav class="shift">
             <ul>
-                <li><a href="/main">HOME</a></li>
+                <li><a href="/business-card">HOME</a></li>
                 <li><a href="/customer-list">CUSTOMER LIST</a></li>
                 <li><a href="/send-email">SEND EMAIL</a></li>
                 <li><a href="#">ABOUT</a></li>
@@ -318,7 +318,7 @@
             <p style="color: white;">Check your email for verification email from AWS.</p>
         </div>
     </div>
-
+<!-- 
     <script>
         // Modal functionality
         const modal = document.getElementById("contextModal");
@@ -399,6 +399,23 @@
                 console.error('Error saving context');
             }
         }
+    </script> -->
+    <script>
+        const numStars = 150; // Adjust the number of stars as needed
+
+for (let i = 0; i < numStars; i++) {
+  createStar(i);
+}
+
+function createStar(index) {
+  const star = document.createElement("div");
+  star.classList.add("star");
+  star.style.top = Math.random() * 11 + "%";
+  star.style.left = Math.random() * 100 + "%";
+  star.style.animationDelay = Math.random() * 5 + "s";
+  document.body.appendChild(star);
+}
     </script>
+
 </body>
 </html>
