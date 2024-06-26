@@ -1,9 +1,10 @@
-from fastapi import APIRouter, HTTPException, Request, status, Cookie
+from fastapi import APIRouter, HTTPException, Request, status, Cookie, Response
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
-from database import DBManager
 from schemas.business_context import BusinessContext
-from schemas.user_credentials import UserCredentials, UserCredentialsLogin
+from database import DBManager
+from schemas.user_credentials import UserCredentials
+from routers.email_sending import ses_client
 import os
 
 login_router = APIRouter()
@@ -22,7 +23,7 @@ async def main_page(request: Request):
 
 # Endpoints for user registration
 @login_router.get("/register")
-async def register_user(request: Request):
+async def main_page(request: Request):
     return templates.TemplateResponse("register.html", {"request": request})
 
 
@@ -42,12 +43,12 @@ async def register_user(user: UserCredentials):
 
 # Endpoints for user login
 @login_router.get("/login")
-async def login_user(request: Request):
+async def login_form(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})
 
 
 @login_router.post("/login")
-async def login_user(user: UserCredentialsLogin):
+async def login_user(user: UserCredentials):
     # Check if username exists and password matches
     existing_user = DB_Manager.validate_user(
         {"username": user.username, "password": user.password}
@@ -81,35 +82,44 @@ async def customer_list(
 
     customers = existing_user.get("customers", [])
     logged_in = existing_user.get("logged-in", False)
-
     return templates.TemplateResponse(
-        "customer_list.html",
-        {"request": request, "customer_data": customers, "logged_in": logged_in},
+        "customer_list.html", {"request": request, "customers": customers, "logged_in": logged_in}
     )
 
 
-@login_router.post("/customer-list")
+@login_router.get("/business-card")
+async def business_card(request: Request, username: str = Cookie(None), password: str = Cookie(None)):
+    if username is None or password is None:
+        raise HTTPException(status_code=401, detail="Unauthorized access")
+
+    existing_user = DB_Manager.validate_user(
+        {"username": username, "password": password}
+    )
+    if not existing_user:
+        raise HTTPException(status_code=401, detail="Unauthorized access")
+
+    logged_in = existing_user.get("logged-in", False)
+    return templates.TemplateResponse("business_card.html", {"request": request, "logged_in": logged_in})
+
+
+@login_router.post("/submit-business-card")
 async def save_business_context(
     request: Request, context: BusinessContext, username: str = Cookie(None)
 ):
     if username is None:
         raise HTTPException(status_code=401, detail="Unauthorized access")
 
-    # Retrieve the user from the database
     user = DB_Manager.check_user({"username": username})
-
     if user is None:
         raise HTTPException(status_code=401, detail="Unauthorized access")
 
-    # Check if the user is already logged in
     if not user.get("logged-in", False):
-        # Save the business context
         DB_Manager.save_business_context(username, context.dict())
-
-        # Update the logged-in status
+        ses_client.verify_email_identity(EmailAddress=username)
         DB_Manager.clients_collection.update_one(
             {"username": username},
             {"$set": {"logged-in": True}}
         )
 
     return RedirectResponse(url="/customer-list", status_code=303)
+

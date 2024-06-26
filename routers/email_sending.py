@@ -1,10 +1,10 @@
 import os
-from fastapi import APIRouter, Cookie, Form, HTTPException, Request
-from fastapi.responses import RedirectResponse
+from fastapi import APIRouter, Cookie, HTTPException, Request, Body
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from database import DBManager
 from utils.email_generation import PepperLLM
-from schemas.email_content import EmailContent
+from schemas.email_content import PromptBody
 import boto3
 
 sending_emails_router = APIRouter()
@@ -17,7 +17,7 @@ templates = Jinja2Templates(directory=templates_directory)
 
 ses_client = boto3.client(
     service_name="ses",
-    region_name="us-west-1",  # os.getenv("AWS_REGION"),
+    region_name=os.getenv("AWS_REGION"),
     aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
     aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
 )
@@ -53,13 +53,14 @@ async def get_business_context_from_db(username: str):
 @sending_emails_router.post("/send-email")
 async def send_email(
     username: str = Cookie(None),
-    prompt: str = Form(...),
+    prompt: PromptBody = Body(...),
 ):
     try:
         if not username:
             raise HTTPException(status_code=400, detail="Username cookie is missing")
 
-        # print(f"Username: {username}")
+        print(f"Username: {username}")
+        print(f"Prompt: {prompt.prompt}")
 
         customers, email_addresses = await get_emails_customers_from_db(username)
         business_context = str(await get_business_context_from_db(username))
@@ -69,8 +70,40 @@ async def send_email(
             email_content = PepperLLM(
                 business_context=business_context,
                 customer=customer,
-                prompt=prompt,
+                prompt=prompt.prompt,
             )
+            # For different versions, TODO but need to decide which one is gonna be sent
+            # email_content_short = PepperLLM(
+            #     business_context=business_context,
+            #     customer=customer,
+            #     prompt=prompt + " short version",
+            # )
+
+            # email_content_long = PepperLLM(
+            #     business_context=business_context,
+            #     customer=customer,
+            #     prompt=prompt + " long version",
+            # )
+
+            # email_content_formal = PepperLLM(
+            #     business_context=business_context,
+            #     customer=customer,
+            #     prompt=prompt + " formal version",
+            # )
+
+            # email_content_informal = PepperLLM(
+            #     business_context=business_context,
+            #     customer=customer,
+            #     prompt=prompt + " informal version",
+            # )
+
+            # Mock response to be sent back to the front-end
+            generated_emails = {
+                "generatedEmailShort": email_content,
+                "generatedEmailLong": email_content,
+                "generatedEmailFormal": email_content,
+                "generatedEmailInformal": email_content,
+            }
 
             # Separate the email_content into subject and body (Assuming the email_content has a delimiter for this example)
             subject, body = email_content.split("\n\n", 1)
@@ -85,15 +118,16 @@ async def send_email(
                 },
             )
 
-        return {"message": "Email sent successfully"}
+        return JSONResponse(content=generated_emails)
+
     except Exception as e:
         print(f"Error sending email: {e}")
         raise HTTPException(status_code=400, detail=str(e))
 
 
 @sending_emails_router.post("/verify-email")
-async def verify_email_identity(username: str = Cookie(None)):
+async def verify_email_identity(username: str):
     response = ses_client.verify_email_identity(EmailAddress=username)
     print("Verify Response: ", response)
     # Redirect the user to "/send-email"
-    return RedirectResponse(url="/send-email")
+    return RedirectResponse(url="/customer-list")
