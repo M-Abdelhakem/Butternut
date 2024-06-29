@@ -262,7 +262,7 @@
         }
     </style>
   </head>
-  <body onload="checkModals()">
+  <body onload="checkModals()" onload="checkBusinessContextSubmission();">
     <div>
       <div class="container1">
         <nav class="shift">
@@ -392,5 +392,31 @@
         document.body.appendChild(star);
       }
     </script>
+
+<script>
+    const form = document.getElementById("contextForm");
+    form.onsubmit = async function (event) {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const formDataJson = Object.fromEntries(formData.entries());
+    
+        const response = await fetch("/submit-business-card", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formDataJson),
+        });
+    
+        if (response.ok) {
+            localStorage.setItem("businessContextSubmitted", "true"); // Mark that the business context has been submitted
+            window.location.href = "/customer-list"; // Redirect to customer list after submission
+        } else {
+            console.error("Error saving context");
+        }
+    };
+    </script>
+    
+  
   </body>
 </html>

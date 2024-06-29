@@ -195,5 +195,32 @@
         }
 
     </script>
+
+<script>
+    document.getElementById('login-form').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        
+        const formData = new FormData(event.target);
+        const formDataJson = Object.fromEntries(formData.entries());
+        
+        const response = await fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formDataJson)
+        });
+    
+        if (response.ok) {
+            // Check if business context has been submitted
+            const redirectUrl = localStorage.getItem("businessContextSubmitted") === "true" ? "/customer-list" : "/business-card";
+            window.location.href = redirectUrl;
+        } else {
+            const data = await response.json();
+            alert(`Login failed: ${data.detail}`);
+        }
+    });
+    </script>
+    
 </body>
 </html>
