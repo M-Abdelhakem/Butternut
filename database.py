@@ -127,3 +127,18 @@ class DBManager:
             if business_context:
                 return business_context
         return None
+    
+
+
+    def save_password_reset_token(self, username, token):
+        self.clients_collection.update_one({"username": username}, {"$set": {"reset_token": token}})
+    
+    def get_username_by_token(self, token):
+        user = self.clients_collection.find_one({"reset_token": token})
+        return user["username"] if user else None
+
+    def delete_password_reset_token(self, token):
+        self.clients_collection.update_one({"reset_token": token}, {"$unset": {"reset_token": ""}})
+    
+    def update_password(self, username, hashed_password):
+        self.clients_collection.update_one({"username": username}, {"$set": {"password": hashed_password}})
