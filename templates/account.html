@@ -1,0 +1,316 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Stripe Checkout</title>
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background: radial-gradient(circle at 50.2% -175%, rgb(14, 72, 222) 5.2%, #010a1d 75.3%);
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 110vh;
+        position: relative;
+    }
+
+    /* Stars */
+    .star {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background-color: #fff;
+        border-radius: 50%;
+        animation: twinkle 2s infinite;
+    }
+
+    @keyframes twinkle {
+        0% { opacity: 0; }
+        50% { opacity: 1; }
+        100% { opacity: 0.3; }
+    }
+
+    .container {
+        margin: 20px auto;
+        border: 2px solid #8bf;
+        margin-top: 100px;
+        margin-left: 30%;
+        padding: 20px;
+        background-color: #042551;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 450px;
+        text-align: center;
+    }
+
+    h1 {
+        text-align: center;
+        color: #fff;
+    }
+
+    .scrollable-table {
+        width: 600px;
+        margin-left: 50px;
+        border-collapse: collapse;
+        margin-top: 20px;
+        display: block;
+        overflow-y: auto;
+        height: 350px; /* Adjust the height as needed */
+    }
+
+    .scrollable-table thead {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background-color: #063b79; /* Same as your header color */
+    }
+
+    .scrollable-table th, .scrollable-table td {
+        padding: 17px;
+        border-bottom: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-left: 1px solid #ddd;
+        border-top: 1px solid #ddd;
+        text-align: left;
+        color: #e0e0e0;
+        font-weight: bolder;
+    }
+
+    .scrollable-table tr:hover {
+        background-color: #084c99;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: #0056b3; /* Dark blue button background */
+        color: #ffffff;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+    .btn:hover {
+        background-color: #003d80;
+    }
+
+    .row {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+        margin-left: 13px;
+    }
+
+    .container1 {
+        width: 100%;
+        padding: 18px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin-right: 10px;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .container1 li {
+        list-style: none;
+        margin-left: 85px;
+        text-align: center;
+        display: inline;
+    }
+
+    .container1 li a {
+        text-decoration: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 4px;
+        color: #f2f2f2;
+        display: inline-block;
+        text-align: center;
+        letter-spacing: 1px;
+        transition: all .3s ease-in;
+        font-family: "Inter", sans-serif;
+    }
+
+    .container1 li a:hover {
+        background-color: #DDFFD9;
+        background-color: #091e9627;
+        color: rgb(210, 210, 210);
+    }
+
+    /* SHIFT */
+    nav.shift ul li a {
+        position: relative;
+        z-index: 1;
+    }
+
+    nav.shift ul li a:hover {
+        color: #ffffff;
+        font-size: 20px;
+    }
+
+    nav.shift ul li a:after {
+        display: block;
+        position: absolute;
+        top: 0;
+        border-radius: 3px;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        width: 100%;
+        height: 1px;
+        content: '.';
+        color: transparent;
+        visibility: none;
+        opacity: 0;
+        z-index: -1;
+    }
+
+    nav.shift ul li a:hover:after {
+        opacity: 1;
+        visibility: visible;
+        height: 100%;
+    }
+
+    /* Floating Modal */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed;
+        z-index: 1000; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+    }
+
+    .modal-content {
+        background-color: #042551;
+        margin: 15% auto;
+        padding: 20px;
+        border: 2px solid #8bf;
+        width: 50%;
+        border-radius: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    label {
+        font-weight: bold;
+        color: white;
+    }
+
+    input[type="text"], textarea {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    button {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+</style>
+
+<body>
+
+    <div class="container1">
+        <nav class="shift">
+            <ul>
+                <li><a href="/business-card">HOME</a></li>
+                <li><a href="/customer-list">CUSTOMER LIST</a></li>
+                <li><a href="/send-email">SEND EMAIL</a></li>
+                <li><a href="/account">ACCOUNT</a></li>
+                <li><a href="#">CONTACT</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="container">
+        <button id="checkout-button">Checkout</button>
+    </div>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var stripe = Stripe("pk_test_51Pb5EHHGFoHVWXfbUqpKUGcoHIOocZb59j3bXUE7pK0PukablsngSAntyDQB2hp7HfrYrsu1bcDlQpyQ9ZfPbBJF00LnRfZEFw");
+
+            var checkoutButton = document.getElementById("checkout-button");
+
+            checkoutButton.addEventListener("click", function () {
+                fetch("/create-checkout-session", {
+                    method: "POST",
+                })
+                .then(function (response) {
+                    return response.json();
+                })
+                .then(function (sessionId) {
+                    return stripe.redirectToCheckout({ sessionId: sessionId.id });
+                })
+                .then(function (result) {
+                    if (result.error) {
+                        alert(result.error.message);
+                    }
+                })
+                .catch(function (error) {
+                    console.error("Error:", error);
+                });
+            });
+        });
+    </script>
+
+<script>
+    const numStars = 150; // Adjust the number of stars as needed
+
+for (let i = 0; i < numStars; i++) {
+createStar(i);
+}
+
+function createStar(index) {
+const star = document.createElement("div");
+star.classList.add("star");
+star.style.top = Math.random() * 11 + "%";
+star.style.left = Math.random() * 100 + "%";
+star.style.animationDelay = Math.random() * 5 + "s";
+document.body.appendChild(star);
+}
+</script>
+</body>
+</html> -->

@@ -26,6 +26,10 @@ async def main_page(request: Request):
 async def main_page(request: Request):
     return templates.TemplateResponse("register.html", {"request": request})
 
+@login_router.get("/account")
+async def read_account(request: Request):
+    return templates.TemplateResponse("account_m.html", {"request": request})
+
 
 @login_router.post("/register")
 async def register_user(user: UserCredentials):
