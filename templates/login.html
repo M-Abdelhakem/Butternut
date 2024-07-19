@@ -21,7 +21,7 @@
             background-color: #000000;
         }
 
-                /* Stars */
+        /* Stars */
         .star {
         position: absolute;
         width: 2px;
@@ -128,6 +128,18 @@
             font-weight: bolder;
             font-size: 12px;
         }
+        .forgot-password {
+            text-align: center;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+        .forgot-password a {
+            color: #8bf;
+            text-decoration: none;
+        }
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body class="star-field">
@@ -144,6 +156,9 @@
             </div>
             <button type="submit">Login</button>
         </form>
+        <div class="forgot-password">
+            <a href="/forget-password">Forgot Password?</a>
+        </div>
         <p class="policy">
             By logging in, you agree to Privacy Policy and 
         </p>
