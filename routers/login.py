@@ -5,7 +5,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 from schemas.business_context import BusinessContext
 from database import DBManager
-from schemas.user_credentials import UserCredentials
+from schemas.user_credentials import UserCredentials, UserCredentialsLogin
 from routers.email_sending import ses_client
 import os
 
@@ -50,7 +50,7 @@ async def login_form(request: Request):
 
 
 @login_router.post("/login")
-async def login_user(user: UserCredentials):
+async def login_user(user: UserCredentialsLogin):
     # Check if username exists and password matches
     existing_user = DB_Manager.validate_user(
         {"username": user.username, "password": user.password}

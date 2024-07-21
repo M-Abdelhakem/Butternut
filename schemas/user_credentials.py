@@ -7,6 +7,7 @@ class UserCredentialsLogin(BaseModel):
     username: str
     password: str
 
+
 class UserCredentials(BaseModel):
     username: str
     password: str
@@ -22,11 +23,12 @@ class UserCredentials(BaseModel):
 
     @validator("password")
     def validate_password(cls, value):
-        regex = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_+=])[A-Za-z\d!@#$%^&*()-_+=]{8,}$"
+        # Enhanced regex pattern to include a wide range of special characters
+        regex = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()\-_=+{};:,<.>]{1,})[A-Za-z\d!@#$%^&*()\-_=+{};:,<.>]{8,}$"
 
         if not re.match(regex, value):
             raise HTTPException(
                 status_code=400,
-                detail="Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, one digit, one special character",
+                detail="Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, one digit, and one special character",
             )
         return value
