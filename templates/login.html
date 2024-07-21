@@ -138,7 +138,7 @@
             text-decoration: none;
         }
         .forgot-password a:hover {
-            
+            color: #005a9c;
         }
     </style>
 </head>
@@ -184,22 +184,22 @@
                 },
                 body: JSON.stringify(formDataJson)
             });
-
+    
             if (response.ok) {
-                // alert('Login successful!');
-                window.location.href = '/business-card';
+                const redirectUrl = response.url;
+                window.location.href = redirectUrl;
             } else {
                 const data = await response.json();
                 alert(`Login failed: ${data.detail}`);
             }
         });
-
+    
         const numStars = 150; // Adjust the number of stars as needed
-
+    
         for (let i = 0; i < numStars; i++) {
-        createStar(i);
+            createStar(i);
         }
-
+    
         function createStar(index) {
             const star = document.createElement("div");
             star.classList.add("star");
@@ -208,34 +208,8 @@
             star.style.animationDelay = Math.random() * 5 + "s";
             document.body.appendChild(star);
         }
-
     </script>
-
-<script>
-    document.getElementById('login-form').addEventListener('submit', async (event) => {
-        event.preventDefault();
-        
-        const formData = new FormData(event.target);
-        const formDataJson = Object.fromEntries(formData.entries());
-        
-        const response = await fetch('/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formDataJson)
-        });
     
-        if (response.ok) {
-            // Check if business context has been submitted
-            const redirectUrl = localStorage.getItem("businessContextSubmitted") === "true" ? "/customer-list" : "/business-card";
-            window.location.href = redirectUrl;
-        } else {
-            const data = await response.json();
-            alert(`Login failed: ${data.detail}`);
-        }
-    });
-    </script>
     
 </body>
 </html>

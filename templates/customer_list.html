@@ -287,7 +287,7 @@
         </div>
     </div>
 
-    <!-- The Modal for business context -->
+    <!-- The Modal for business context
     <div id="contextModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -317,89 +317,8 @@
             <h2 style="color: white;">Email Verification</h2>
             <p style="color: white;">Check your email for verification email from AWS.</p>
         </div>
-    </div>
-<!-- 
-    <script>
-        // Modal functionality
-        const modal = document.getElementById("contextModal");
-        const emailModal = document.getElementById("emailVerificationModal");
-        const span = document.getElementsByClassName("close")[0];
-        const emailSpan = document.getElementsByClassName("close-email")[0];
+    </div> -->
 
-        // Check if the user is logged in for the first time
-        const loggedIn = JSON.parse('{{ logged_in|tojson }}'); // Pass this variable from the backend
-
-        function checkModals() {
-            if (!loggedIn) {
-                modal.style.display = "block";
-                emailModal.style.display = "block";
-                verifyEmail();
-            }
-        }
-
-        // When the user clicks on <span> (x), close the modals
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-
-        emailSpan.onclick = function() {
-            emailModal.style.display = "none";
-        }
-
-        // Close the modals if the user clicks outside of them
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-            if (event.target == emailModal) {
-                emailModal.style.display = "none";
-            }
-        }
-
-        // Function to call the verify-email route
-        async function verifyEmail() {
-            try {
-                const response = await fetch('/verify-email', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    credentials: 'include' // Include cookies in the request
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to verify email');
-                }
-
-                console.log('Email verification initiated');
-            } catch (error) {
-                console.error('Error:', error);
-            }
-        }
-
-        // Handle form submission
-        const form = document.getElementById("contextForm");
-        form.onsubmit = async function(event) {
-            event.preventDefault();
-            const formData = new FormData(form);
-            const formDataJson = Object.fromEntries(formData.entries());
-
-            const response = await fetch('/customer-list', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formDataJson)
-            });
-
-            if (response.ok) {
-                modal.style.display = "none";
-                location.reload();
-            } else {
-                console.error('Error saving context');
-            }
-        }
-    </script> -->
     <script>
         const numStars = 150; // Adjust the number of stars as needed
 

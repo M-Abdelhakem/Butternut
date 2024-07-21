@@ -58,10 +58,14 @@ async def login_user(user: UserCredentialsLogin):
     if not existing_user:
         raise HTTPException(status_code=401, detail="Invalid username or password")
 
+    # Check logged-in status
+    if existing_user.get("logged-in", False):
+        redirect_url = "/customer-list"
+    else:
+        redirect_url = "/business-card"
+
     # If login successful, set user credentials as cookies
-    response = RedirectResponse(
-        url="/customer-list", status_code=status.HTTP_303_SEE_OTHER
-    )
+    response = RedirectResponse(url=redirect_url, status_code=status.HTTP_303_SEE_OTHER)
     response.set_cookie(key="username", value=user.username)
     response.set_cookie(key="password", value=user.password)
 
@@ -83,10 +87,9 @@ async def customer_list(
         raise HTTPException(status_code=401, detail="Unauthorized access")
 
     customers = existing_user.get("customers", [])
-    logged_in = existing_user.get("logged-in", False)
     return templates.TemplateResponse(
         "customer_list.html",
-        {"request": request, "customer_data": customers, "logged_in": logged_in},
+        {"request": request, "customer_data": customers},
     )
 
 
