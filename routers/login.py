@@ -28,10 +28,6 @@ async def main_page(request: Request):
 async def main_page(request: Request):
     return templates.TemplateResponse("register.html", {"request": request})
 
-@login_router.get("/account")
-async def read_account(request: Request):
-    return templates.TemplateResponse("account_m.html", {"request": request})
-
 
 @login_router.post("/register")
 async def register_user(user: UserCredentials):
@@ -134,21 +130,21 @@ async def save_business_context(
     return RedirectResponse(url="/customer-list", status_code=303)
 
 
-
 @login_router.get("/forget-password")
 async def forget_password_form(request: Request):
     return templates.TemplateResponse("forget_password.html", {"request": request})
+
 
 @login_router.post("/forget-password")
 async def forget_password(username: str = Form(...)):
     user = DB_Manager.check_user({"username": username})
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    
+
     token = secrets.token_urlsafe(32)
     DB_Manager.save_password_reset_token(username, token)
 
-    reset_link = f"http://localhost:8000/reset-password?token={token}"
+    reset_link = f"http://peppercorn.email/reset-password?token={token}"
     email_subject = "Password Reset Request"
     email_body = f"Click the link to reset your password: {reset_link}"
 
@@ -163,19 +159,24 @@ async def forget_password(username: str = Form(...)):
 
     return {"message": "Password reset email sent"}
 
+
 ### Step 2: Create an endpoint for resetting the password
+
 
 @login_router.get("/reset-password")
 async def reset_password_form(request: Request, token: str):
-    return templates.TemplateResponse("reset_password.html", {"request": request, "token": token})
+    return templates.TemplateResponse(
+        "reset_password.html", {"request": request, "token": token}
+    )
+
 
 @login_router.post("/reset-password")
 async def reset_password(token: str = Form(...), new_password: str = Form(...)):
     username = DB_Manager.get_username_by_token(token)
     if not username:
         raise HTTPException(status_code=400, detail="Invalid or expired token")
-    
-    hashed_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
+
+    hashed_password = bcrypt.hashpw(new_password.encode("utf-8"), bcrypt.gensalt())
     DB_Manager.update_password(username, hashed_password)
     DB_Manager.delete_password_reset_token(token)
 
