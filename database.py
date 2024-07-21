@@ -142,3 +142,9 @@ class DBManager:
     
     def update_password(self, username, hashed_password):
         self.clients_collection.update_one({"username": username}, {"$set": {"password": hashed_password}})
+
+
+
+    def update_user_profile(self, username: str, profile_info: dict):
+        # Logic to update the user's profile information in the database
+        self.clients_collection.update_one({"username": username}, {"$set": profile_info})

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Your Profile</title>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at 50.2% -175%, rgb(14, 72, 222) 5.2%, #010a1d 75.3%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+
+        .container {
+            width: 450px;
+            border: 2px solid #8bf;
+            padding: 40px;
+            background-color: #042551;
+            border-radius: 30px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        h2 {
+            color: #fff;
+            margin-bottom: 30px;
+            font-size: 40px;
+        }
+
+        form {
+            display: block;
+        }
+
+        form div {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bolder;
+            color: #fff;
+            font-size: 12px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #8bf;
+            border-radius: 3px;
+            background-color: rgb(235, 233, 233);
+            color: #000;
+            font-weight: bold;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            background-color: lightblue;
+            border: 4px solid #0c940c;
+        }
+
+        button[type="submit"] {
+            width: 150px;
+            font: Inter;
+            font-size: 15px;
+            font-weight: bolder;
+            margin-top: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #091949;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0512d1;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Complete Your Profile</h2>
+        <form id="profile-form">
+            <div>
+                <label for="first_name">First Name:</label>
+                <input type="text" id="first_name" name="first_name" required>
+            </div>
+            <div>
+                <label for="last_name">Last Name:</label>
+                <input type="text" id="last_name" name="last_name" required>
+            </div>
+            <div>
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" required>
+            </div>
+            <div>
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" required>
+            </div>
+            <div>
+                <label for="country">Country:</label>
+                <input type="text" id="country" name="country" required>
+            </div>
+            <div>
+                <label for="postal_code">Postal Code:</label>
+                <input type="number" id="postal_code" name="postal_code" required>
+            </div>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('profile-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const formDataJson = Object.fromEntries(formData.entries());
+            
+            const response = await fetch('/submit-profile-info', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formDataJson)
+            });
+
+            if (response.ok) {
+
+                // Redirect to the account page
+                window.location.href = '/login';
+            } else {
+                const data = await response.json();
+                alert(`Profile update failed: ${data.detail}`);
+            }
+        });
+
+        const numStars = 150; // Adjust the number of stars as needed
+
+        for (let i = 0; i < numStars; i++) {
+            createStar(i);
+        }
+
+        function createStar(index) {
+            const star = document.createElement("div");
+            star.classList.add("star");
+            star.style.top = Math.random() * 15 + "%";
+            star.style.left = Math.random() * 100 + "%";
+            star.style.animationDelay = Math.random() * 5 + "s";
+            document.body.appendChild(star);
+        }
+    </script>
+</body>
+</html>
