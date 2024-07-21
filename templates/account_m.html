@@ -2288,6 +2288,38 @@ p {
 #navbar .navbar {
   margin-bottom: 20px;
 }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide-in {
+    animation: slideIn 1s ease-out forwards;
+}
+
+
 </style>
 
 <body style="height: 1500px;">
@@ -2298,7 +2330,7 @@ p {
                 <li><a href="/business-card">HOME</a></li>
                 <li><a href="/customer-list">CUSTOMER LIST</a></li>
                 <li><a href="/send-email">SEND EMAIL</a></li>
-                <li><a href="/account">ACCOUNT</a></li>
+                <li><a style="color: #145faf; font-weight: bolder;" href="/account">ACCOUNT</a></li>
                 <li><a href="#">CONTACT</a></li>
             </ul>
         </nav>
@@ -2373,10 +2405,10 @@ p {
       <!-- Header container -->
       <div class="container-fluid d-flex align-items-center">
         <div class="row">
-          <div style="margin-top: -180px; margin-left: 250px; margin-bottom: -30px;" class="col-lg-7 col-md-10">
-            <h1 class="display-2 text-white">Hello Madiyar</h1>
-            <p style="text-align: center;" class="text-white mt-0 mb-5">This is your profile / billing page. You can see / edit account details and manage your billing plan</p>
-            <!-- <a href="#!" class="btn btn-info">Edit profile</a> -->
+          <div style="margin-top: -200px; margin-left: 250px; margin-bottom: -30px;" class="col-lg-7 col-md-10">
+            <h1 class="display-2 text-white fade-in">Hello Madiyar</h1>
+<p class="text-white mt-0 mb-5 fade-in" style="text-align: center;">This is your profile / billing page. You can see / edit account details and manage your billing plan</p>
+<!-- <a href="#!" class="btn btn-info">Edit profile</a> -->
           </div>
         </div>
       </div>
@@ -2385,7 +2417,7 @@ p {
     <!-- Page content -->
     <div style="margin-top: -100px;" class="container-fluid mt--7">
       <div  style="margin-top: -300px;" class="row">
-        <div  class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+        <div  class="col-xl-4 order-xl-2 mb-5 mb-xl-0 slide-in">
           <div style=" border: 8px solid rgb(75, 138, 220);" class="card card-profile shadow">
             <div class="row justify-content-center">
               <div class="col-lg-3 order-lg-2">
@@ -2417,12 +2449,12 @@ p {
                 </div>
                 <hr class="my-4">
                 <p>Madiyar - event-organiser, hosting big events in Hillsborough region</p>
-                <a href="#">Show more</a>
+                <a href="#">Log Out</a>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-xl-8 order-xl-1">
+        <div class="col-xl-8 order-xl-1 slide-in">
           <div style=" border: 8px solid rgb(75, 138, 220);" class="card bg-secondary shadow">
             <div class="card-header bg-white border-0">
               <div class="row align-items-center">
@@ -2578,7 +2610,7 @@ p {
     function createStar(index) {
         const star = document.createElement("div");
         star.classList.add("star");
-        star.style.top = Math.random() * 11 + "%";
+        star.style.top = Math.random() * 5 + "%";
         star.style.left = Math.random() * 100 + "%";
         star.style.animationDelay = Math.random() * 5 + "s";
         document.body.appendChild(star);
