@@ -17,7 +17,7 @@ templates = Jinja2Templates(directory=templates_directory)
 
 ses_client = boto3.client(
     service_name="ses",
-    region_name=os.getenv("AWS_DEFAULT_REGION"),
+    region_name=os.getenv("AWS_REGION"),
     aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
     aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
 )
