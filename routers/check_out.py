@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import JSONResponse
 
-load_dotenv('/env_variables.env')
+load_dotenv('env_variables.env')
 
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 
