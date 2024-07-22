@@ -51,38 +51,6 @@
         color: #fff;
     }
 
-    .scrollable-table {
-        width: 600px;
-        margin-left: 50px;
-        border-collapse: collapse;
-        margin-top: 20px;
-        display: block;
-        overflow-y: auto;
-        height: 350px; /* Adjust the height as needed */
-    }
-
-    .scrollable-table thead {
-        position: sticky;
-        top: 0;
-        z-index: 1;
-        background-color: #063b79; /* Same as your header color */
-    }
-
-    .scrollable-table th, .scrollable-table td {
-        padding: 17px;
-        border-bottom: 1px solid #ddd;
-        border-right: 1px solid #ddd;
-        border-left: 1px solid #ddd;
-        border-top: 1px solid #ddd;
-        text-align: left;
-        color: #e0e0e0;
-        font-weight: bolder;
-    }
-
-    .scrollable-table tr:hover {
-        background-color: #084c99;
-    }
-
     .btn {
         display: inline-block;
         padding: 10px 20px;
@@ -122,7 +90,7 @@
 
     .container1 li {
         list-style: none;
-        margin-left: 85px;
+        margin-left: 75px;
         text-align: center;
         display: inline;
     }
@@ -130,7 +98,7 @@
     .container1 li a {
         text-decoration: none;
         padding: 10px 20px;
-        font-size: 16px;
+        font-size: 15px;
         border-radius: 4px;
         color: #f2f2f2;
         display: inline-block;
@@ -154,7 +122,7 @@
 
     nav.shift ul li a:hover {
         color: #ffffff;
-        font-size: 20px;
+        font-size: 18px;
     }
 
     nav.shift ul li a:after {
@@ -179,43 +147,6 @@
         opacity: 1;
         visibility: visible;
         height: 100%;
-    }
-
-    /* Floating Modal */
-    .modal {
-        display: none; /* Hidden by default */
-        position: fixed;
-        z-index: 1000; /* Sit on top */
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto;
-        background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
-    }
-
-    .modal-content {
-        background-color: #042551;
-        margin: 15% auto;
-        padding: 20px;
-        border: 2px solid #8bf;
-        width: 50%;
-        border-radius: 10px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-    }
-
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-
-    .close:hover,
-    .close:focus {
-        color: white;
-        text-decoration: none;
-        cursor: pointer;
     }
 
     label {
@@ -246,9 +177,6 @@
     button:hover {
         background-color: #0056b3;
     }
-
-
-
 
 </style>
 
@@ -2326,7 +2254,7 @@ p {
     <div class="container1">
         <nav class="shift">
             <ul>
-                <li><a href="/business-card">HOME</a></li>
+                <li><a href="/business-card">BUSINESS CARD</a></li>
                 <li><a href="/customer-list">CUSTOMER LIST</a></li>
                 <li><a href="/send-email">SEND EMAIL</a></li>
                 <li><a style="color: #145faf; font-weight: bolder" href="/account">ACCOUNT</a></li>
@@ -2336,7 +2264,7 @@ p {
     </div>
 
     <div class="main-content" style="height: auto;">
-        <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 600px; background-color: #093564; width: 1280px;">
+        <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 600px; background-color: #052546; width: 1280px;">
             <!-- <span class="mask bg-gradient-default opacity-8"></span> -->
             <div class="container-fluid d-flex align-items-center">
                 <div class="row">
@@ -2380,7 +2308,7 @@ p {
                                 </div>
                                 <hr class="my-4">
                                 <p>{{ user_profile['description'] }}</p>
-                                <a href="#">Show more</a>
+                                <a href="#">Log Out</a>
                             </div>
                         </div>
                     </div>
@@ -2393,7 +2321,7 @@ p {
                                     <h3 class="mb-0">My account</h3>
                                 </div>
                                 <div class="col-4 text-right">
-                                    <a href="#!" class="btn btn-sm btn-primary">Edit</a>
+                                    <a href="/profile_info" class="btn btn-sm btn-primary">Edit</a>
                                 </div>
                             </div>
                         </div>
