@@ -2288,183 +2288,220 @@ p {
 #navbar .navbar {
   margin-bottom: 20px;
 }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-out forwards;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.slide-in {
+    animation: slideIn 1s ease-out forwards;
+}
+
+
 </style>
 
-<body>
-  <div class="container1">
-      <nav class="shift">
-          <ul>
-              <li><a href="/business-card">HOME</a></li>
-              <li><a href="/customer-list">CUSTOMER LIST</a></li>
-              <li><a href="/send-email">SEND EMAIL</a></li>
-              <li><a href="/account">ACCOUNT</a></li>
-              <li><a href="#">CONTACT</a></li>
-          </ul>
-      </nav>
-  </div>
+<body style="height: auto;">
+    <div class="container1">
+        <nav class="shift">
+            <ul>
+                <li><a href="/business-card">HOME</a></li>
+                <li><a href="/customer-list">CUSTOMER LIST</a></li>
+                <li><a href="/send-email">SEND EMAIL</a></li>
+                <li><a style="color: #145faf; font-weight: bolder" href="/account">ACCOUNT</a></li>
+                <li><a href="#">CONTACT</a></li>
+            </ul>
+        </nav>
+    </div>
 
-  <div class="main-content">
-      <!-- Top navbar and other elements -->
-
-      <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 600px; background-color: #09407c;">
-          <span class="mask bg-gradient-default opacity-8"></span>
-          <div class="container-fluid d-flex align-items-center">
-              <div class="row">
-                  <div style="margin-top: -180px; margin-left: 250px; margin-bottom: -30px;" class="col-lg-7 col-md-10">
-                      <h1 class="display-2 text-white">Hello {{ user_profile['first_name'] }}</h1>
-                      <p style="text-align: center;" class="text-white mt-0 mb-5">This is your profile / billing page. You can see / edit account details and manage your billing plan</p>
-                  </div>
-              </div>
-          </div>
-      </div>
-
-      <div style="margin-top: -100px;" class="container-fluid mt--7">
-          <div style="margin-top: -300px;" class="row">
-              <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
-                  <div style=" border: 8px solid rgb(75, 138, 220);" class="card card-profile shadow">
-                      <div class="row justify-content-center">
-                          <div class="col-lg-3 order-lg-2">
-                              <div class="card-profile-image">
-                                  <a href="#">
-                                      <img src="/static/profile.png" class="rounded-circle">
-                                  </a>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
-                          <div class="d-flex justify-content-between">
-                          </div>
-                      </div>
-                      <div class="card-body pt-0 pt-md-4">
-                          <div class="row">
-                              <div class="col">
-                              </div>
-                          </div>
-                          <div style="margin-top: 40px;" class="text-center">
-                              <h3>{{ user_profile['first_name'] }} {{ user_profile['last_name'] }}<span class="font-weight-light"></span></h3>
-                              <div class="h5 font-weight-300">
-                                  <i class="ni location_pin mr-2"></i>{{ user_profile['city'] }}, {{ user_profile['country'] }}
-                              </div>
-                              <div class="h5 mt-4">
-                                  <i class="ni business_briefcase-24 mr-2"></i>{{ user_profile['plan'] }} Plan User
-                              </div>
-                              <hr class="my-4">
-                              <p>{{ user_profile['description'] }}</p>
-                              <a href="#">Show more</a>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-xl-8 order-xl-1">
-                  <div style=" border: 8px solid rgb(75, 138, 220);" class="card bg-secondary shadow">
-                      <div class="card-header bg-white border-0">
-                          <div class="row align-items-center">
-                              <div class="col-8">
-                                  <h3 class="mb-0">My account</h3>
-                              </div>
-                              <div class="col-4 text-right">
-                                  <a href="#!" class="btn btn-sm btn-primary">Settings</a>
-                              </div>
-                          </div>
-                      </div>
-                      <div class="card-body">
-                          <form>
-                              <h6 class="heading-small text-muted mb-4">User information</h6>
-                              <div class="pl-lg-4">
-                                  <div class="row">
-                                      <div class="col-lg-6">
-                                          <div class="form-group focused">
-                                              <label class="form-control-label" for="input-username">Username</label>
-                                              <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Username" value="{{ user_profile['username'] }}">
-                                          </div>
-                                      </div>
-                                      <div class="col-lg-6">
-                                          <div style="margin-top: 8px;" class="form-group">
-                                              <label class="form-control-label" for="input-email">Email address</label>
-                                              <input type="email" id="input-email" class="form-control form-control-alternative" placeholder="Email" value="{{ user_profile['email'] }}">
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="row">
-                                      <div class="col-lg-6">
-                                          <div class="form-group focused">
-                                              <label class="form-control-label" for="input-first-name">First name</label>
-                                              <input type="text" id="input-first-name" class="form-control form-control-alternative" placeholder="First name" value="{{ user_profile['first_name'] }}">
-                                          </div>
-                                      </div>
-                                      <div class="col-lg-6">
-                                          <div class="form-group focused">
-                                              <label class="form-control-label" for="input-last-name">Last name</label>
-                                              <input type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Last name" value="{{ user_profile['last_name'] }}">
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <hr class="my-4">
-                              <!-- Address -->
-                              <h6 class="heading-small text-muted mb-4">Contact information</h6>
-                              <div class="pl-lg-4">
-                                  <div class="row">
-                                      <div class="col-md-12">
-                                          <div class="form-group focused">
-                                              <label class="form-control-label" for="input-address">Address</label>
-                                              <input id="input-address" class="form-control form-control-alternative" placeholder="Home Address" value="{{ user_profile['address'] }}" type="text">
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="row">
-                                      <div class="col-lg-4">
-                                          <div class="form-group focused">
-                                              <label class="form-control-label" for="input-city">City</label>
-                                              <input type="text" id="input-city" class="form-control form-control-alternative" placeholder="City" value="{{ user_profile['city'] }}">
-                                          </div>
-                                      </div>
-                                      <div class="col-lg-4">
-                                          <div class="form-group focused">
-                                              <label class="form-control-label" for="input-country">Country</label>
-                                              <input type="text" id="input-country" class="form-control form-control-alternative" placeholder="Country" value="{{ user_profile['country'] }}">
-                                          </div>
-                                      </div>
-                                      <div class="col-lg-4">
-                                          <div class="form-group">
-                                              <label class="form-control-label" for="input-postal-code">Postal code</label>
-                                              <input type="number" id="input-postal-code" class="form-control form-control-alternative" placeholder="Postal code" value="{{ user_profile['postal_code'] }}">
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                              <h6 class="heading-small text-muted mb-4">Billing information</h6>
-<div class="pl-lg-4">
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="form-group focused">
-                <label class="form-control-label">Your Plan</label>
-                <div>
-                    <input type="radio" id="basic-plan" name="plan" value="basic">
-                    <label for="basic-plan">Basic</label>
-                </div>
-                <div>
-                    <input type="radio" id="premium-plan" name="plan" value="premium">
-                    <label for="premium-plan">Premium</label>
+    <div class="main-content" style="height: auto;">
+        <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center" style="min-height: 600px; background-color: #093564; width: 1280px;">
+            <!-- <span class="mask bg-gradient-default opacity-8"></span> -->
+            <div class="container-fluid d-flex align-items-center">
+                <div class="row">
+                    <div style="margin-top: -220px; margin-left: 250px; margin-bottom: -30px;" class="col-lg-7 col-md-10">
+                        <h1 class="display-2 text-white fade-in">Hello {{ user_profile['first_name'] }}</h1>
+                        <p style="text-align: center;" class="text-white mt-0 mb-5 fade-in">This is your profile / billing page. You can see / edit account details and manage your billing plan</p>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-6">
-            <div style="margin-top: 10px;" class="form-group">
-                <label class="form-control-label" for="input-stripe">Stripe Checkout</label>
-                <button id="checkout-button">Checkout</button>
+
+        <div style="margin-top: -150px;" class="container-fluid mt--7">
+            <div style="margin-top: -350px; height: 1200px;" class="row">
+                <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0 slide-in">
+                    <div style="border: 8px solid rgb(75, 138, 220);" class="card card-profile shadow">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-3 order-lg-2">
+                                <div class="card-profile-image">
+                                    <a href="#">
+                                        <img src="/static/profile.png" class="rounded-circle">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+                            <div class="d-flex justify-content-between">
+                            </div>
+                        </div>
+                        <div class="card-body pt-0 pt-md-4">
+                            <div class="row">
+                                <div class="col">
+                                </div>
+                            </div>
+                            <div style="margin-top: 40px;" class="text-center">
+                                <h3>{{ user_profile['first_name'] }} {{ user_profile['last_name'] }}<span class="font-weight-light"></span></h3>
+                                <div class="h5 font-weight-300">
+                                    <i class="ni location_pin mr-2"></i>{{ user_profile['city'] }}, {{ user_profile['country'] }}
+                                </div>
+                                <div class="h5 mt-4">
+                                    <i class="ni business_briefcase-24 mr-2"></i>{{ user_profile['plan'] }} Plan User
+                                </div>
+                                <hr class="my-4">
+                                <p>{{ user_profile['description'] }}</p>
+                                <a href="#">Show more</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-8 order-xl-1 slide-in">
+                    <div style="border: 8px solid rgb(75, 138, 220);" class="card bg-secondary shadow">
+                        <div class="card-header bg-white border-0">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h3 class="mb-0">My account</h3>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <a href="#!" class="btn btn-sm btn-primary">Edit</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <h6 class="heading-small text-muted mb-4">User information</h6>
+                                <div class="pl-lg-4">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group focused">
+                                                <label class="form-control-label" for="input-username">Username</label>
+                                                <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Username" value="{{ user_profile['username'] }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div style="margin-top: 8px;" class="form-group">
+                                                <label class="form-control-label" for="input-email">Email address</label>
+                                                <input type="email" id="input-email" class="form-control form-control-alternative" placeholder="Email" value="{{ user_profile['email'] }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group focused">
+                                                <label class="form-control-label" for="input-first-name">First name</label>
+                                                <input type="text" id="input-first-name" class="form-control form-control-alternative" placeholder="First name" value="{{ user_profile['first_name'] }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group focused">
+                                                <label class="form-control-label" for="input-last-name">Last name</label>
+                                                <input type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Last name" value="{{ user_profile['last_name'] }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="my-4">
+                                <!-- Address -->
+                                <h6 class="heading-small text-muted mb-4">Contact information</h6>
+                                <div class="pl-lg-4">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group focused">
+                                                <label class="form-control-label" for="input-address">Address</label>
+                                                <input id="input-address" class="form-control form-control-alternative" placeholder="Home Address" value="{{ user_profile['address'] }}" type="text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="form-group focused">
+                                                <label class="form-control-label" for="input-city">City</label>
+                                                <input type="text" id="input-city" class="form-control form-control-alternative" placeholder="City" value="{{ user_profile['city'] }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group focused">
+                                                <label class="form-control-label" for="input-country">Country</label>
+                                                <input type="text" id="input-country" class="form-control form-control-alternative" placeholder="Country" value="{{ user_profile['country'] }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="input-postal-code">Postal code</label>
+                                                <input type="number" id="input-postal-code" class="form-control form-control-alternative" placeholder="Postal code" value="{{ user_profile['postal_code'] }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h6 class="heading-small text-muted mb-4">Billing information</h6>
+                                <div class="pl-lg-4">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group focused">
+                                                <label class="form-control-label">Your Plan</label>
+                                                <div>
+                                                    <input type="radio" id="basic-plan" name="plan" value="basic">
+                                                    <label for="basic-plan">Basic</label>
+                                                </div>
+                                                <div>
+                                                    <input type="radio" id="premium-plan" name="plan" value="premium">
+                                                    <label for="premium-plan">Premium</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div style="margin-top: 10px;" class="form-group">
+                                                <label class="form-control-label" for="input-stripe">Stripe Checkout</label>
+                                                <button id="checkout-button">Checkout</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p></p>
+                                    <p></p>
+                                    <p></p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-      </div>
-  </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
         var stripe = Stripe("pk_test_51Pf14dRxdDFnvTGAxYdCFgm0EdPPXroR1Ex5r2WTNGnVFCKgqLWBlaQCMkJKrgaEsXzAlEDcv8MIVJhGoQZLE4rk00mv3KT2A1");
-
         var checkoutButton = document.getElementById("checkout-button");
 
         checkoutButton.addEventListener("click", function (event) {
@@ -2508,7 +2545,7 @@ p {
         function createStar(index) {
             const star = document.createElement("div");
             star.classList.add("star");
-            star.style.top = Math.random() * 11 + "%";
+            star.style.top = Math.random() * 6 + "%";
             star.style.left = Math.random() * 100 + "%";
             star.style.animationDelay = Math.random() * 5 + "s";
             document.body.appendChild(star);
