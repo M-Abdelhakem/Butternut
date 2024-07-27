@@ -657,6 +657,21 @@
   animation: slideOut 0.3s ease-out forwards;
 }
 
+.sidenav {
+    display: block;
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #052551;
+    overflow-x: hidden;
+    padding-top: 60px;
+    transition: width 0.5s; /* Add transition for smooth animation */
+}
+
+
 
     </style>
   </head>
@@ -665,14 +680,15 @@
     <div class="container1">
       <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
-          >&times;</a
-        >
+          >&times;</a>
         <a href="/business-card">Home</a>
         <a href="/customer-list">Customer List</a>
         <a href="/send-email">Send Email</a>
-        <a href="/account">Account & Profile</a>
+        <a href="/account">Account Page</a>
         <a href="#">Contact</a>
       </div>
+
+
 
       <span
         style="
@@ -799,6 +815,16 @@
         </div>
       </main>
     </div>
+
+    <script>
+        function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+    </script>
 
     <script src="https://cdn.ckeditor.com/ckeditor5/34.1.0/classic/ckeditor.js"></script>
     <script>
