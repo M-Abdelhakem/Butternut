@@ -4,6 +4,8 @@ import stripe
 from dotenv import load_dotenv
 from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import JSONResponse
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import RedirectResponse
 
 load_dotenv('env_variables.env')
 
@@ -74,18 +76,3 @@ async def cancel(request: Request):
     # Redirect to the account page with a red alert message
     return RedirectResponse(url="/account?message=payment_failed")
 
-# Define the main FastAPI app
-app = FastAPI()
-app.include_router(stripe_router)
-
-# Account route for handling the message parameter
-@app.get("/account")
-async def account(message: str = None):
-    if message:
-        return {"alert": message}
-    return {"message": "Welcome to your account"}
-
-if __name__ == "__main__":
-    import uvicorn
-    logger.info("Starting application")
-    uvicorn.run(app, host="0.0.0.0", port=8000, log_level="info")
