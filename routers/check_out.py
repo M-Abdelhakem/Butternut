@@ -6,9 +6,6 @@ from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import JSONResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
-
-load_dotenv('env_variables.env')
-
 # Set up Stripe API key
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 
