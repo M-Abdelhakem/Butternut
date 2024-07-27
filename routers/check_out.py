@@ -2,11 +2,9 @@ import logging
 import os
 import stripe
 from dotenv import load_dotenv
-from fastapi import APIRouter, Request, HTTPException, FastAPI
-from fastapi.responses import JSONResponse, RedirectResponse
-from fastapi.templating import Jinja2Templates
+from fastapi import APIRouter, Request, HTTPException
+from fastapi.responses import JSONResponse
 
-# Load environment variables from .env file
 load_dotenv('env_variables.env')
 
 # Set up Stripe API key
