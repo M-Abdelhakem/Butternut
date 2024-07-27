@@ -39,10 +39,13 @@ async def account_page(request: Request, username: str = Cookie(None)):
         raise HTTPException(status_code=401, detail="Unauthorized access")
 
     user_profile = DB_Manager.check_user({"username": username})
-    # print(user_profile)
     if not user_profile:
         raise HTTPException(status_code=404, detail="User not found")
+    
+    # Extract the profile_info from the user_profile
+    profile_info = user_profile.get("profile_info", {})
 
     return templates.TemplateResponse(
-        "account_m.html", {"request": request, "user_profile": user_profile}
+        "account_m.html", {"request": request, "username": username, "user_profile": profile_info}
     )
+

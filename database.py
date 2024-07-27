@@ -20,7 +20,11 @@ class DBManager:
     def insert_user(self, user):
         hashed_password = hash_password(user["password"])
         self.clients_collection.insert_one(
-            {"username": user["username"], "password": hashed_password, "logged-in": False}
+            {
+                "username": user["username"],
+                "password": hashed_password,
+                "logged-in": False,
+            }
         )
 
     def validate_user(self, user):
@@ -36,8 +40,7 @@ class DBManager:
 
     def save_business_context(self, username, context):
         self.clients_collection.update_one(
-            {"username": username},
-            {"$set": {"business_context": context}}
+            {"username": username}, {"$set": {"business_context": context}}
         )
 
     def insert_upload_record(self, data):
@@ -116,35 +119,41 @@ class DBManager:
             {"username": client_username}, {"$set": {"customers": merged_customers}}
         )
 
-
     def get_business_context(self, username):
         result = self.clients_collection.find_one(
-            {"username": username},
-            {"_id": 0, "business_context": 1}
+            {"username": username}, {"_id": 0, "business_context": 1}
         )
         if result:
-            business_context = result.get('business_context')
+            business_context = result.get("business_context")
             if business_context:
                 return business_context
         return None
-    
-
 
     def save_password_reset_token(self, username, token):
-        self.clients_collection.update_one({"username": username}, {"$set": {"reset_token": token}})
-    
+        self.clients_collection.update_one(
+            {"username": username}, {"$set": {"reset_token": token}}
+        )
+
     def get_username_by_token(self, token):
         user = self.clients_collection.find_one({"reset_token": token})
         return user["username"] if user else None
 
     def delete_password_reset_token(self, token):
-        self.clients_collection.update_one({"reset_token": token}, {"$unset": {"reset_token": ""}})
-    
+        self.clients_collection.update_one(
+            {"reset_token": token}, {"$unset": {"reset_token": ""}}
+        )
+
     def update_password(self, username, hashed_password):
-        self.clients_collection.update_one({"username": username}, {"$set": {"password": hashed_password}})
-
-
+        self.clients_collection.update_one(
+            {"username": username}, {"$set": {"password": hashed_password}}
+        )
 
     def update_user_profile(self, username: str, profile_info: dict):
         # Logic to update the user's profile information in the database
-        self.clients_collection.update_one({"username": username}, {"$set": profile_info})
+        update_query = {"$set": {"profile_info": profile_info}}
+        self.clients_collection.update_one({"username": username}, update_query)
+
+    def add_stripe_id(self, username, stripe_id):
+        self.clients_collection.update_one(
+            {"username": username}, {"$set": {"stripe_customer_id": stripe_id}}
+        )
