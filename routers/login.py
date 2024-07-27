@@ -51,11 +51,16 @@ async def login_form(request: Request):
 
 @login_router.post("/login")
 async def login_user(user: UserCredentialsLogin):
-    # Check if username exists and password matches
-    existing_user = DB_Manager.validate_user(
+    # Check if username exists
+    existing_user = DB_Manager.check_user({"username": user.username})
+    if not existing_user:
+        raise HTTPException(status_code=401, detail="User doesn't exist")
+
+    # Validate password
+    valid_user = DB_Manager.validate_user(
         {"username": user.username, "password": user.password}
     )
-    if not existing_user:
+    if not valid_user:
         raise HTTPException(status_code=401, detail="Invalid username or password")
 
     # Check logged-in status
