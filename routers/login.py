@@ -189,3 +189,7 @@ async def reset_password(token: str = Form(...), new_password: str = Form(...)):
     DB_Manager.delete_password_reset_token(token)
 
     return RedirectResponse(url="/login", status_code=303)
+
+@login_router.get("/saved_copies")
+async def saved_copies(request: Request):
+    return templates.TemplateResponse("saved_copies.html", {"request": request})
