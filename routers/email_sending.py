@@ -1,3 +1,4 @@
+from datetime import timedelta, datetime, timezone
 import os
 from fastapi import APIRouter, Cookie, HTTPException, Request, Body
 from fastapi.responses import JSONResponse, RedirectResponse
@@ -55,7 +56,25 @@ async def send_email(
     username: str = Cookie(None),
     prompt: PromptBody = Body(...),
 ):
+
+    subscription_start_date = DB_Manager.get_subscription_start_date(username)
+
+    if subscription_start_date:
+        # Check if the subscription is still valid (within one month)
+        current_date = datetime.now(timezone.utc)
+        subscription_validity_period = timedelta(days=30)
+
+        if current_date - subscription_start_date < subscription_validity_period:
+            print("Subscription is still valid.")
+        else:
+            print("Subscription has expired. Please resubscribe.")
+            return "Subscription has expired. Please resubscribe."
+    else:
+        print("User is not subscribed. Please subscribe.")
+        return "User is not subscribed. Please subscribe."
+
     try:
+        print("Sending email...")
         if not username:
             raise HTTPException(status_code=400, detail="Username cookie is missing")
 
