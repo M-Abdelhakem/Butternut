@@ -1,4 +1,3 @@
-from datetime import datetime, timezone
 from pymongo import MongoClient, ASCENDING
 from utils.password_hashing import hash_password, verify_password
 
@@ -158,25 +157,3 @@ class DBManager:
         self.clients_collection.update_one(
             {"username": username}, {"$set": {"stripe_customer_id": stripe_id}}
         )
-
-    def update_subscription(self, username: str):
-        self.clients_collection.update_one(
-            {"username": username},
-            {"$set": {"subscription_start_date": datetime.now(timezone.utc)}},
-            upsert=True,  # This will create the field if it doesn't exist
-        )
-
-    def get_subscription_start_date(self, username: str):
-        user = self.clients_collection.find_one(
-            {"username": username}, {"subscription_start_date": 1}
-        )
-        if user:
-            # Ensure the retrieved datetime is aware
-            subscription_start_date = user.get("subscription_start_date")
-            if subscription_start_date and subscription_start_date.tzinfo is None:
-                # Assuming the stored datetime should be UTC if naive
-                subscription_start_date = subscription_start_date.replace(
-                    tzinfo=timezone.utc
-                )
-            return subscription_start_date
-        return None

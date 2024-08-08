@@ -89,8 +89,7 @@ async def create_checkout_session(request: Request, username: str = Cookie(None)
 
 # Success route
 @stripe_router.get("/success")
-async def success(request: Request, username: str = Cookie(None)):
-    DB_Manager.update_subscription(username)
+async def success(request: Request):
     return templates.TemplateResponse("success.html", {"request": request})
 
 
