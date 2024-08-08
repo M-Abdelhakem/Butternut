@@ -7,6 +7,8 @@ from database import DBManager
 from utils.email_generation import PepperLLM
 from schemas.email_content import PromptBody
 import boto3
+import requests
+from fastapi.responses import JSONResponse, RedirectResponse, FileResponse
 
 sending_emails_router = APIRouter()
 DB_Manager = DBManager()
@@ -150,3 +152,26 @@ async def verify_email_identity(username: str):
     print("Verify Response: ", response)
     # Redirect the user to "/send-email"
     return RedirectResponse(url="/customer-list")
+
+# Add a route to serve the tracking pixel
+@sending_emails_router.get("/track_email/{email_id}")
+async def track_email(email_id: str, request: Request):
+    ip_address = request.client.host
+    user_agent = request.headers.get('user-agent')
+    timestamp = datetime.now(timezone.utc)
+
+    # Get location info from ipapi
+    response = requests.get(f'http://ip-api.com/json/{ip_address}')
+    location_data = response.json()
+
+    # Log the email open event in your database or any storage
+    DB_Manager.log_email_open(
+        email_id=email_id,
+        ip_address=ip_address,
+        user_agent=user_agent,
+        location=location_data,
+        opened_at=timestamp
+    )
+
+    # Serve the tracking pixel
+    return FileResponse('static/transparent_pixel.png', media_type='image/png')
