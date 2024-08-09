@@ -2247,6 +2247,43 @@ p {
     animation: slideIn 1s ease-out forwards;
 }
 
+/* Basic modal styles */
+.modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0); /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
 
 </style>
 
@@ -2427,6 +2464,14 @@ p {
         </div>
     </div>
 
+    <!-- The Modal -->
+    <div id="paymentFailedModal" class="modal">
+      <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2>Payment Failed</h2>
+          <p>Your payment could not be processed. Please try again or contact support.</p>
+      </div>
+  </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -2481,6 +2526,46 @@ p {
         }
     });
 </script>
+
+<script>
+  // Function to get query parameters from URL
+  function getQueryParams() {
+      const params = new URLSearchParams(window.location.search);
+      return params;
+  }
+
+  // Function to show modal
+  function showModal() {
+      const modal = document.getElementById("paymentFailedModal");
+      const span = modal.getElementsByClassName("close")[0];
+
+      modal.style.display = "block";
+
+      // Close the modal when the user clicks on <span> (x)
+      span.onclick = function() {
+          modal.style.display = "none";
+          window.history.replaceState({}, document.title, window.location.pathname);
+      }
+
+      // Close the modal when the user clicks anywhere outside of the modal
+      window.onclick = function(event) {
+          if (event.target == modal) {
+              modal.style.display = "none";
+              window.history.replaceState({}, document.title, window.location.pathname);
+          }
+      }
+  }
+
+  // Check for payment failure message
+  window.onload = function() {
+      const params = getQueryParams();
+      const message = params.get('message');
+      if (message === 'payment_failed') {
+          showModal();
+      }
+  };
+</script>
+
 
 </body>
 </html>

@@ -73,7 +73,7 @@ async def create_checkout_session(request: Request, username: str = Cookie(None)
                 },
             ],
             mode="subscription",
-            success_url="http://peppercorn.email/success",
+            success_url=f"http://peppercorn.email/success?session_id={{CHECKOUT_SESSION_ID}}",
             cancel_url="http://peppercorn.email/cancel",
         )
         return JSONResponse({"id": checkout_session.id})
@@ -90,8 +90,27 @@ async def create_checkout_session(request: Request, username: str = Cookie(None)
 # Success route
 @stripe_router.get("/success")
 async def success(request: Request, username: str = Cookie(None)):
-    DB_Manager.update_subscription(username)
-    return templates.TemplateResponse("success.html", {"request": request})
+    session_id = request.query_params.get("session_id")
+    if not session_id:
+        raise HTTPException(status_code=400, detail="Missing session ID")
+
+    try:
+        # Retrieve the session from Stripe to verify
+        session = stripe.checkout.Session.retrieve(session_id)
+
+        if session.payment_status != "paid":
+            raise HTTPException(status_code=403, detail="Payment not completed")
+
+        # Update subscription in database after verifying payment status
+        DB_Manager.update_subscription(username)
+        return templates.TemplateResponse("success.html", {"request": request})
+
+    except stripe.error.StripeError as e:
+        logger.error(f"Stripe error: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+    except Exception as e:
+        logger.error(f"Unexpected error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 # Cancel route
