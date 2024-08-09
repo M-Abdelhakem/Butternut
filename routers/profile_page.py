@@ -18,7 +18,12 @@ async def profile_info_page(request: Request, username: str = Cookie(None)):
     if not username:
         raise HTTPException(status_code=401, detail="Unauthorized access")
 
-    return templates.TemplateResponse("profile_info.html", {"request": request})
+    existing_user = DB_Manager.check_user({"username": username})
+    logged_in = existing_user.get("logged-in", False)
+
+    return templates.TemplateResponse(
+        "profile_info.html", {"request": request, "logged_in": logged_in}
+    )
 
 
 @profile_router.post("/submit-profile-info")
@@ -41,11 +46,11 @@ async def account_page(request: Request, username: str = Cookie(None)):
     user_profile = DB_Manager.check_user({"username": username})
     if not user_profile:
         raise HTTPException(status_code=404, detail="User not found")
-    
+
     # Extract the profile_info from the user_profile
     profile_info = user_profile.get("profile_info", {})
 
     return templates.TemplateResponse(
-        "account_m.html", {"request": request, "username": username, "user_profile": profile_info}
+        "account_m.html",
+        {"request": request, "username": username, "user_profile": profile_info},
     )
-

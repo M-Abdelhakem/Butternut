@@ -138,6 +138,9 @@
     </div>
 
     <script>
+        // Determine redirection path based on logged_in status
+        const loggedIn = {{ 'true' if logged_in else 'false' }};
+
         document.getElementById('profile-form').addEventListener('submit', async (event) => {
             event.preventDefault();
             
@@ -153,9 +156,12 @@
             });
 
             if (response.ok) {
-
-                // Redirect to the account page
-                window.location.href = '/login';
+                // Redirect based on logged_in status
+                if (loggedIn) {
+                    window.location.href = '/account';
+                } else {
+                    window.location.href = '/login';
+                }
             } else {
                 const data = await response.json();
                 alert(`Profile update failed: ${data.detail}`);

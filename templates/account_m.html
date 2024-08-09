@@ -2345,7 +2345,7 @@ p {
                                 </div>
                                 <hr class="my-4">
                                 <p>{{ user_profile['description'] }}</p>
-                                <a href="#">Log Out</a>
+                                <a href="/">Log Out</a>
                             </div>
                         </div>
                     </div>
@@ -2358,7 +2358,7 @@ p {
                                     <h3 class="mb-0">My account</h3>
                                 </div>
                                 <div class="col-4 text-right">
-                                    <a href="/profile_info" class="btn btn-sm btn-primary">Edit</a>
+                                    <a href="/profile-info" class="btn btn-sm btn-primary">Edit</a>
                                 </div>
                             </div>
                         </div>
@@ -2371,13 +2371,13 @@ p {
                                             <div class="form-group focused">
                                                 <!-- We Don't use usernames, so probably this will be deleted -->
                                                 <label class="form-control-label" for="input-username">Username</label>
-                                                <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Username" value="{{ username }}">
+                                                <input type="text" id="input-username" class="form-control form-control-alternative" placeholder="Username" value="{{ username }}" readonly>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div style="margin-top: 8px;" class="form-group">
                                                 <label class="form-control-label" for="input-email">Email address</label>
-                                                <input type="email" id="input-email" class="form-control form-control-alternative" placeholder="Email" value="{{ username }}">
+                                                <input type="email" id="input-email" class="form-control form-control-alternative" placeholder="Email" value="{{ username }}" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -2385,13 +2385,13 @@ p {
                                         <div class="col-lg-6">
                                             <div class="form-group focused">
                                                 <label class="form-control-label" for="input-first-name">First name</label>
-                                                <input type="text" id="input-first-name" class="form-control form-control-alternative" placeholder="First name" value="{{ user_profile['first_name'] }}">
+                                                <input type="text" id="input-first-name" class="form-control form-control-alternative" placeholder="First name" value="{{ user_profile['first_name'] }}" readonly>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group focused">
                                                 <label class="form-control-label" for="input-last-name">Last name</label>
-                                                <input type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Last name" value="{{ user_profile['last_name'] }}">
+                                                <input type="text" id="input-last-name" class="form-control form-control-alternative" placeholder="Last name" value="{{ user_profile['last_name'] }}" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -2404,7 +2404,7 @@ p {
                                         <div class="col-md-12">
                                             <div class="form-group focused">
                                                 <label class="form-control-label" for="input-address">Address</label>
-                                                <input id="input-address" class="form-control form-control-alternative" placeholder="Home Address" value="{{ user_profile['address'] }}" type="text">
+                                                <input id="input-address" class="form-control form-control-alternative" placeholder="Home Address" value="{{ user_profile['address'] }}" type="text" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -2412,19 +2412,19 @@ p {
                                         <div class="col-lg-4">
                                             <div class="form-group focused">
                                                 <label class="form-control-label" for="input-city">City</label>
-                                                <input type="text" id="input-city" class="form-control form-control-alternative" placeholder="City" value="{{ user_profile['city'] }}">
+                                                <input type="text" id="input-city" class="form-control form-control-alternative" placeholder="City" value="{{ user_profile['city'] }}" readonly>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group focused">
                                                 <label class="form-control-label" for="input-country">Country</label>
-                                                <input type="text" id="input-country" class="form-control form-control-alternative" placeholder="Country" value="{{ user_profile['country'] }}">
+                                                <input type="text" id="input-country" class="form-control form-control-alternative" placeholder="Country" value="{{ user_profile['country'] }}" readonly>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label class="form-control-label" for="input-postal-code">Postal code</label>
-                                                <input type="number" id="input-postal-code" class="form-control form-control-alternative" placeholder="Postal code" value="{{ user_profile['postal_code'] }}">
+                                                <input type="number" id="input-postal-code" class="form-control form-control-alternative" placeholder="Postal code" value="{{ user_profile['postal_code'] }}" readonly>
                                             </div>
                                         </div>
                                     </div>
