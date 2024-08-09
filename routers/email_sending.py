@@ -27,8 +27,24 @@ ses_client = boto3.client(
 
 
 @sending_emails_router.get("/send-email")
-async def send_email(request: Request):
-    return templates.TemplateResponse("send_email.html", {"request": request})
+async def send_email(request: Request, username: str = Cookie(None)):
+    if not username:
+        raise HTTPException(status_code=401, detail="Unauthorized access")
+
+    subscription_start_date = DB_Manager.get_subscription_start_date(username)
+    subscribed = True
+
+    if subscription_start_date:
+        # Check if the subscription is still valid (within one month)
+        current_date = datetime.now(timezone.utc)
+        subscription_validity_period = timedelta(days=30)
+
+        if current_date - subscription_start_date >= subscription_validity_period:
+            subscribed = False
+    else:
+        subscribed = False
+
+    return templates.TemplateResponse("send_email.html", {"request": request, "subscribed": subscribed})
 
 
 async def get_emails_customers_from_db(username: str):
@@ -58,22 +74,6 @@ async def send_email(
     username: str = Cookie(None),
     prompt: PromptBody = Body(...),
 ):
-
-    subscription_start_date = DB_Manager.get_subscription_start_date(username)
-
-    if subscription_start_date:
-        # Check if the subscription is still valid (within one month)
-        current_date = datetime.now(timezone.utc)
-        subscription_validity_period = timedelta(days=30)
-
-        if current_date - subscription_start_date < subscription_validity_period:
-            print("Subscription is still valid.")
-        else:
-            print("Subscription has expired. Please resubscribe.")
-            return "Subscription has expired. Please resubscribe."
-    else:
-        print("User is not subscribed. Please subscribe.")
-        return "User is not subscribed. Please subscribe."
 
     try:
         print("Sending email...")
@@ -157,11 +157,11 @@ async def verify_email_identity(username: str):
 @sending_emails_router.get("/track_email/{email_id}")
 async def track_email(email_id: str, request: Request):
     ip_address = request.client.host
-    user_agent = request.headers.get('user-agent')
+    user_agent = request.headers.get("user-agent")
     timestamp = datetime.now(timezone.utc)
 
     # Get location info from ipapi
-    response = requests.get(f'http://ip-api.com/json/{ip_address}')
+    response = requests.get(f"http://ip-api.com/json/{ip_address}")
     location_data = response.json()
 
     # Log the email open event in your database or any storage
@@ -170,8 +170,8 @@ async def track_email(email_id: str, request: Request):
         ip_address=ip_address,
         user_agent=user_agent,
         location=location_data,
-        opened_at=timestamp
+        opened_at=timestamp,
     )
 
     # Serve the tracking pixel
-    return FileResponse('static/transparent_pixel.png', media_type='image/png')
+    return FileResponse("static/transparent_pixel.png", media_type="image/png")

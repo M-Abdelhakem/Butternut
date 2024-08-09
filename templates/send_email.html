@@ -671,7 +671,45 @@
     transition: width 0.5s; /* Add transition for smooth animation */
 }
 
+/* Modal styles */
+.modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+        }
 
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%; /* Could be more or less, depending on screen size */
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        /* Close button */
+        .close-subscription {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close-subscription:hover,
+        .close-subscription:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
 
     </style>
   </head>
@@ -832,6 +870,15 @@
         </div>
       </main>
     </div>
+
+    <!-- The Modal for Subscription Check -->
+    <div id="subscriptionModal" class="modal">
+      <div class="modal-content">
+          <span class="close-subscription">&times;</span>
+          <h2 style="color: black">Subscription Required</h2>
+          <p style="color: black" id="subscriptionMessage">You must subscribe to use the email service.</p>
+      </div>
+  </div>
 
     <script>
 
@@ -1069,7 +1116,55 @@
       sendChatBtn.addEventListener("click", handleChat);
     </script>
 
-   
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const subscribedd = {{ subscribed | tojson | safe }}; // Ensure the variable is a boolean
+
+    if (!subscribedd) {
+        showSubscriptionModal();
+    }
+
+    function showSubscriptionModal() {
+        const subscriptionModal = document.getElementById("subscriptionModal");
+        const subscriptionSpan = document.querySelector(".close-subscription");
+
+        if (subscriptionModal) {
+            subscriptionModal.style.display = "block";
+            subscriptionModal.setAttribute('aria-hidden', 'false');
+            subscriptionModal.focus();
+
+            // Close modal on span click
+            subscriptionSpan.onclick = function () {
+                closeModal();
+            };
+
+            // Close modal on outside click
+            window.onclick = function (event) {
+                if (event.target === subscriptionModal) {
+                    closeModal();
+                }
+            };
+
+            // Close modal on Escape key press
+            document.onkeydown = function (event) {
+                if (event.key === 'Escape') {
+                    closeModal();
+                }
+            };
+        }
+    }
+
+    function closeModal() {
+        const subscriptionModal = document.getElementById("subscriptionModal");
+        if (subscriptionModal) {
+            subscriptionModal.style.display = "none";
+            subscriptionModal.setAttribute('aria-hidden', 'true');
+            window.location.href = "/account"; // Redirect to account or subscription page
+        }
+    }
+});
+
+</script>
 
   </body>
 </html>
