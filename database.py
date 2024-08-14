@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from typing import List
 from pymongo import MongoClient, ASCENDING
 from utils.password_hashing import hash_password, verify_password
 
@@ -180,3 +181,10 @@ class DBManager:
                 )
             return subscription_start_date
         return None
+
+    def delete_customers(self, customer_emails: list):
+        # Implement the deletion logic by searching within the list of dictionaries
+        result = self.clients_collection.update_many(
+            {}, {"$pull": {"customers": {"email": {"$in": customer_emails}}}}
+        )
+        return result.modified_count > 0

@@ -211,39 +211,113 @@
     <div class="container" style="padding-top: 50px;">
       <h1>Customer List</h1>
       <div class="table-container">
-        <div class="search-box">
-          <input
-            class="form-control"
-            id="searchInput"
-            type="text"
-            placeholder="Search..."
-          />
-        </div>
-        <table class="table table-striped table-hover table-custom">
-            <thead>
-                <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">Email</th>
-                </tr>
+          <div class="search-box">
+              <input
+                  class="form-control"
+                  id="searchInput"
+                  type="text"
+                  placeholder="Search..."
+              />
+          </div>
+          <table class="table table-striped table-hover table-custom">
+              <thead>
+                  <tr id="header-row">
+                      <th scope="col" id="select-header" style="display: none; width: 40px;">
+                          <input type="checkbox" id="select-all" style="display: none;"> <!-- Hidden by default -->
+                      </th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                  </tr>
               </thead>
-              <tbody class="table-group-divider"></tbody>
               <tbody id="customerTable">
-                {% for customer in customer_data %}
-                <tr>
-                  <td>{{ customer.name }}</td>
-                  <td>{{ customer.email }}</td>
-                </tr>
-                {% endfor %}
+                  {% for customer in customer_data %}
+                  <tr>
+                      <td class="select-column" style="display: none;">
+                          <input type="checkbox" class="customer-checkbox" value="{{ customer.email }}">
+                      </td>
+                      <td>{{ customer.name }}</td>
+                      <td>{{ customer.email }}</td>
+                  </tr>
+                  {% endfor %}
               </tbody>
           </table>
-          
       </div>
-
-
-      <div class="row">
-        <a href="/upload-csv-data" class="btn btn-primary">Upload Data</a>
-        <a href="/retrieve-csv-data" class="btn btn-primary">Show Uploaded Data</a>
+  
+      <div class="row" style="display: flex; justify-content: space-between; margin-top: 10px;">
+          <button id="edit-mode-toggle" class="btn btn-secondary" style="flex: 1; margin-right: 10px;">Edit Customers</button>
+          <button id="delete-selected" class="btn btn-danger" style="flex: 1; display:none;">Delete Selected</button> <!-- Hidden by default -->
       </div>
+      <div class="row" style="margin-top: 20px;">
+          <a href="/upload-csv-data" class="btn btn-primary" style="margin-right: 10px;">Upload Data</a>
+          <a href="/retrieve-csv-data" class="btn btn-primary">Show Uploaded Data</a>
+      </div>
+  </div>
+  
+  <script>
+      // Toggle Edit Mode
+      document.getElementById('edit-mode-toggle').addEventListener('click', function () {
+          const checkboxes = document.querySelectorAll('.customer-checkbox');
+          const selectColumns = document.querySelectorAll('.select-column');
+          const selectHeader = document.getElementById('select-header');
+          const selectAllCheckbox = document.getElementById('select-all');
+          const deleteButton = document.getElementById('delete-selected');
+          const editButton = document.getElementById('edit-mode-toggle');
+  
+          const isEditing = selectColumns[0].style.display === 'table-cell';
+  
+          // Toggle visibility of the select column and header
+          selectColumns.forEach(column => column.style.display = isEditing ? 'none' : 'table-cell');
+          selectHeader.style.display = isEditing ? 'none' : 'table-cell';
+  
+          // Toggle the "Select All" checkbox visibility
+          selectAllCheckbox.style.display = isEditing ? 'none' : 'inline-block';
+          selectAllCheckbox.checked = false; // Uncheck "Select All" when exiting edit mode
+  
+          // Toggle button visibility and width
+          deleteButton.style.display = isEditing ? 'none' : 'inline-block';
+          editButton.style.flex = isEditing ? '1' : '0.5';
+          deleteButton.style.flex = isEditing ? '0.5' : '0.5';
+      });
+  
+      // Handle "Select All" checkbox
+      document.getElementById('select-all').addEventListener('change', function () {
+          const checkboxes = document.querySelectorAll('.customer-checkbox');
+          const selectAllChecked = this.checked;
+          checkboxes.forEach(checkbox => checkbox.checked = selectAllChecked);
+      });
+  
+      // Handle Delete Form Submission
+      document.getElementById('delete-selected').addEventListener('click', async function () {
+    const selectedCheckboxes = document.querySelectorAll('.customer-checkbox:checked');
+    const selectedCustomerIds = Array.from(selectedCheckboxes).map(cb => cb.value);
+
+    if (selectedCustomerIds.length === 0) {
+        alert("No customers selected.");
+        return;
+    }
+
+    const confirmation = confirm("Are you sure you want to delete the selected customers?");
+    if (!confirmation) return;
+
+    const response = await fetch('/delete-customers', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ customer_ids: selectedCustomerIds }) // Ensure this is sent as a JSON object with a key "customer_ids"
+    });
+
+    if (response.ok) {
+        alert("Selected customers have been deleted.");
+        window.location.reload();
+    } else {
+        const data = await response.json();
+        alert(`Error: ${data.detail}`);
+    }
+});
+  </script>
+  
+  
       
 
     <script>

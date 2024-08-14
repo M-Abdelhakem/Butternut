@@ -1,6 +1,16 @@
 import secrets
+from typing import Dict, List
 import bcrypt
-from fastapi import APIRouter, Form, HTTPException, Request, status, Cookie, Response
+from fastapi import (
+    APIRouter,
+    Body,
+    Form,
+    HTTPException,
+    Request,
+    status,
+    Cookie,
+    Response,
+)
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 from schemas.business_context import BusinessContext
@@ -98,6 +108,25 @@ async def customer_list(
     )
 
 
+@login_router.post("/delete-customers")
+async def delete_customers(customer_ids: Dict[str, List[str]] = Body(...)):
+    if not customer_ids:
+        raise HTTPException(status_code=400, detail="No customer IDs provided")
+
+    # Extract the list of customer_ids (emails) from the dictionary
+    customer_list = customer_ids.get("customer_ids")
+    print(customer_list)
+    # Logic to delete customers from the database using customer_ids
+    # Example:
+    result = DB_Manager.delete_customers(customer_list)
+
+    if result:
+        return {"message": "Customers deleted successfully"}
+    else:
+        raise HTTPException(status_code=500, detail="Failed to delete customers")
+    # return RedirectResponse(url="/customer-list", status_code=303)
+
+
 @login_router.get("/business-card")
 async def business_card(
     request: Request, username: str = Cookie(None), password: str = Cookie(None)
@@ -189,6 +218,7 @@ async def reset_password(token: str = Form(...), new_password: str = Form(...)):
     DB_Manager.delete_password_reset_token(token)
 
     return RedirectResponse(url="/login", status_code=303)
+
 
 @login_router.get("/saved_copies")
 async def saved_copies(request: Request):
