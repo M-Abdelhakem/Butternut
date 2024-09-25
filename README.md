@@ -1,4 +1,4 @@
-# Peppercorn Email Marketing Platform 📧✨
+# Peppercorn - Email Marketing Platform 📧✨
 
 Welcome to **Peppercorn**, your all-in-one, user-friendly email marketing platform! Designed to help businesses create, manage, and deliver personalized email campaigns effortlessly. Leveraging the power of **AI-generated content** with **OpenAI GPT**, **AWS SES** for seamless email delivery, and **Stripe** for subscription management, Peppercorn provides a robust, scalable solution for businesses looking to meaningfully engage their customers.
 
