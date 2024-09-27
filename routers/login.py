@@ -4,6 +4,7 @@ import bcrypt
 from fastapi import (
     APIRouter,
     Body,
+    Depends,
     Form,
     HTTPException,
     Request,
@@ -11,6 +12,7 @@ from fastapi import (
     Cookie,
     Response,
 )
+from fastapi.security import OAuth2PasswordRequestForm
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 from schemas.business_context import BusinessContext
@@ -18,6 +20,9 @@ from database import DBManager
 from schemas.user_credentials import UserCredentials, UserCredentialsLogin
 from routers.email_sending import ses_client
 import os
+
+from utils.auth import get_current_user_from_token
+from utils.token_helper import create_token
 
 login_router = APIRouter()
 DB_Manager = DBManager()
@@ -79,29 +84,44 @@ async def login_user(user: UserCredentialsLogin):
     else:
         redirect_url = "/business-card"
 
-    # If login successful, set user credentials as cookies
+    # Create JWT token for the user
+    token = create_token({"sub": user.username})
+
+    # Create a response and set the JWT token as a cookie
     response = RedirectResponse(url=redirect_url, status_code=status.HTTP_303_SEE_OTHER)
-    response.set_cookie(key="username", value=user.username)
-    response.set_cookie(key="password", value=user.password)
+    response.set_cookie(key="Authorization", value=f"Bearer {token}", httponly=True)
 
     return response
+
+    # TODO: (Done for now...) response (the cookies) should be deleted, so the token works
+
+    # If login successful, set user credentials as cookies
+    # response = RedirectResponse(url=redirect_url, status_code=status.HTTP_303_SEE_OTHER)
+    # response.set_cookie(key="username", value=user.username)
+    # response.set_cookie(key="password", value=user.password)
+
+    # return response
+
+
+@login_router.get("/test-token")
+async def test_token(token: str = Cookie(None)):
+    return {"token": token}
 
 
 # Endpoint for customer list
 @login_router.get("/customer-list")
 async def customer_list(
-    request: Request, username: str = Cookie(None), password: str = Cookie(None)
+    request: Request, current_user: dict = Depends(get_current_user_from_token)
 ):
-    if username is None or password is None:
-        raise HTTPException(status_code=401, detail="Unauthorized access")
+    # Fetch the user from the database using the username from the token
+    existing_user = DB_Manager.check_user({"username": current_user})
 
-    existing_user = DB_Manager.validate_user(
-        {"username": username, "password": password}
-    )
     if not existing_user:
-        raise HTTPException(status_code=401, detail="Unauthorized access")
+        raise HTTPException(status_code=404, detail="User not found")
 
     customers = existing_user.get("customers", [])
+
+    # Return the customer list as a template
     return templates.TemplateResponse(
         "customer_list.html",
         {"request": request, "customer_data": customers},
