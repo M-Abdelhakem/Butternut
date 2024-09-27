@@ -6,7 +6,6 @@ from routers.retrieve_csv_data import retrieve_data_router
 from routers.email_sending import sending_emails_router
 from routers.profile_page import profile_router
 from routers.check_out import stripe_router
-from routers.jwt_tester import test_jwt_router
 from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
@@ -17,7 +16,6 @@ app.include_router(retrieve_data_router)
 app.include_router(sending_emails_router)
 app.include_router(profile_router)
 app.include_router(stripe_router)
-app.include_router(test_jwt_router)
 
 parent_directory = os.path.dirname(os.path.abspath(__file__))
 static_directory = os.path.join(parent_directory, "static")
